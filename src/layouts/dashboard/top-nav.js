@@ -11,6 +11,7 @@ import {
   Stack,
   SvgIcon,
   Tooltip,
+  Typography,
   useMediaQuery
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
@@ -78,26 +79,9 @@ export const TopNav = (props) => {
             direction="row"
             spacing={2}
           >
-            <Tooltip title="Contacts">
-              <IconButton>
-                <SvgIcon fontSize="small">
-                  <UsersIcon />
-                </SvgIcon>
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Notifications">
-              <IconButton>
-                <Badge
-                  badgeContent={4}
-                  color="success"
-                  variant="dot"
-                >
-                  <SvgIcon fontSize="small">
-                    <BellIcon />
-                  </SvgIcon>
-                </Badge>
-              </IconButton>
-            </Tooltip>
+            <Typography>
+              Anika Visser
+            </Typography>
             <Avatar
               onClick={accountPopover.handleOpen}
               ref={accountPopover.anchorRef}

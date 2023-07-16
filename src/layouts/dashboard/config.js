@@ -2,6 +2,7 @@ import ChartBarIcon from '@heroicons/react/24/solid/ChartBarIcon';
 import CogIcon from '@heroicons/react/24/solid/CogIcon';
 import LockClosedIcon from '@heroicons/react/24/solid/LockClosedIcon';
 import ShoppingBagIcon from '@heroicons/react/24/solid/ShoppingBagIcon';
+import GlobeAltIcon from '@heroicons/react/24/solid/GlobeAltIcon';
 import UserIcon from '@heroicons/react/24/solid/UserIcon';
 import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
@@ -19,11 +20,11 @@ export const items = [
     )
   },
   {
-    title: 'Customers',
-    path: '/customers',
+    title: 'World Building',
+    path: '/companies',
     icon: (
       <SvgIcon fontSize="small">
-        <UsersIcon />
+        <GlobeAltIcon />
       </SvgIcon>
     )
   },
