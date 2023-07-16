@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import TrashIcon from '@heroicons/react/20/solid/TrashIcon';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ClockIcon from '@heroicons/react/24/solid/ClockIcon';
 import { Avatar, Box, Card, CardContent, Divider, Stack, SvgIcon, Typography } from '@mui/material';
@@ -81,13 +82,13 @@ export const CompanyCard = (props) => {
           >
             <PencilIcon />
           </SvgIcon>
-          <Typography
-            color="text.secondary"
-            display="inline"
-            variant="body2"
+
+          <SvgIcon
+            color="action"
+            fontSize="small"
           >
-            Edit
-          </Typography>
+            <TrashIcon />
+          </SvgIcon>
         </Stack>
       </Stack>
     </Card>
