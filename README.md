@@ -9,6 +9,11 @@
 > course [Next.js](https://github.com/vercel/next.js/?ref=devias-io) to boost your app development
 > process!
 
+## Commands for start development server
+
+ - ```npm install```
+ - ```npm run dev```
+
 ## Demo
 
 - [Dashboard Page](https://material-kit-react.devias.io)
