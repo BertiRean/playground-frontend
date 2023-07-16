@@ -3,6 +3,8 @@ import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIc
 import ClockIcon from '@heroicons/react/24/solid/ClockIcon';
 import { Avatar, Box, Card, CardContent, Divider, Stack, SvgIcon, Typography } from '@mui/material';
 
+import PencilIcon from '@heroicons/react/24/solid/PencilIcon';
+
 export const CompanyCard = (props) => {
   const { company } = props;
 
@@ -78,14 +80,14 @@ export const CompanyCard = (props) => {
             color="action"
             fontSize="small"
           >
-            <ArrowDownOnSquareIcon />
+            <PencilIcon />
           </SvgIcon>
           <Typography
             color="text.secondary"
             display="inline"
             variant="body2"
           >
-            {company.downloads} Downloads
+            Edit
           </Typography>
         </Stack>
       </Stack>

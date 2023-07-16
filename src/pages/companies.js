@@ -23,7 +23,6 @@ const companies = [
     description: 'Dropbox is a file hosting service that offers cloud storage, file synchronization, a personal cloud.',
     logo: '/assets/logos/logo-dropbox.png',
     title: 'Dropbox',
-    downloads: '594'
   },
   {
     id: 'ed2b900870ceba72d203ec15',
@@ -31,7 +30,6 @@ const companies = [
     description: 'Medium is an online publishing platform developed by Evan Williams, and launched in August 2012.',
     logo: '/assets/logos/logo-medium.png',
     title: 'Medium Corporation',
-    downloads: '625'
   },
   {
     id: 'a033e38768c82fca90df3db7',
@@ -39,7 +37,6 @@ const companies = [
     description: 'Slack is a cloud-based set of team collaboration tools and services, founded by Stewart Butterfield.',
     logo: '/assets/logos/logo-slack.png',
     title: 'Slack',
-    downloads: '857'
   },
   {
     id: '1efecb2bf6a51def9869ab0f',
@@ -47,7 +44,6 @@ const companies = [
     description: 'Lyft is an on-demand transportation company based in San Francisco, California.',
     logo: '/assets/logos/logo-lyft.png',
     title: 'Lyft',
-    downloads: '406'
   },
   {
     id: '1ed68149f65fbc6089b5fd07',
@@ -55,7 +51,6 @@ const companies = [
     description: 'GitHub is a web-based hosting service for version control of code using Git.',
     logo: '/assets/logos/logo-github.png',
     title: 'GitHub',
-    downloads: '835'
   },
   {
     id: '5dab321376eff6177407e887',
@@ -63,7 +58,6 @@ const companies = [
     description: 'Squarespace provides software as a service for website building and hosting. Headquartered in NYC.',
     logo: '/assets/logos/logo-squarespace.png',
     title: 'Squarespace',
-    downloads: '835'
   }
 ];
 
@@ -71,7 +65,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Companies | Devias Kit
+        Characters | Playground
       </title>
     </Head>
     <Box
@@ -90,34 +84,8 @@ const Page = () => (
           >
             <Stack spacing={1}>
               <Typography variant="h4">
-                Companies
+                Characters
               </Typography>
-              <Stack
-                alignItems="center"
-                direction="row"
-                spacing={1}
-              >
-                <Button
-                  color="inherit"
-                  startIcon={(
-                    <SvgIcon fontSize="small">
-                      <ArrowUpOnSquareIcon />
-                    </SvgIcon>
-                  )}
-                >
-                  Import
-                </Button>
-                <Button
-                  color="inherit"
-                  startIcon={(
-                    <SvgIcon fontSize="small">
-                      <ArrowDownOnSquareIcon />
-                    </SvgIcon>
-                  )}
-                >
-                  Export
-                </Button>
-              </Stack>
             </Stack>
             <div>
               <Button
