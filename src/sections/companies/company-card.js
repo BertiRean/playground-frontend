@@ -25,7 +25,6 @@ export const CompanyCard = (props) => {
           }}
         >
           <Avatar
-            src={company.logo}
             variant="square"
           />
         </Box>
