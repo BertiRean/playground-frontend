@@ -36,7 +36,7 @@ export const WorldBuildingRegister = () => {
     <form onSubmit={handleSubmit}>
       <Card>
         <CardHeader
-          subheader="Use this for give desired context to your characters"
+          subheader='Fill this with the world context for the world your characters interact with, the more detailed the better the generated dialogue will be'
           title="Create World building"
         />
         <Divider />
