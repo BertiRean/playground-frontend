@@ -21,7 +21,7 @@ export const items = [
   },
   {
     title: 'World Building',
-    path: '/companies',
+    path: '/worldbuilding',
     icon: (
       <SvgIcon fontSize="small">
         <GlobeAltIcon />
