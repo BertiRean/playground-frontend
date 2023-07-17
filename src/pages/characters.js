@@ -13,10 +13,10 @@ import {
   Unstable_Grid2 as Grid
 } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { CompanyCard } from 'src/sections/companies/company-card';
-import { CompaniesSearch } from 'src/sections/companies/companies-search';
+import { CharacterCard } from 'src/sections/characters/character-card';
+import { CharactersSearch } from 'src/sections/characters/characters-search';
 
-const companies = [
+const characters = [
   {
     id: '2569ce0d517a7f06d3ea1f24',
     createdAt: '27/03/2019',
@@ -100,19 +100,19 @@ const Page = () => (
               </Button>
             </div>
           </Stack>
-          <CompaniesSearch />
+          <CharactersSearch />
           <Grid
             container
             spacing={3}
           >
-            {companies.map((company) => (
+            {characters.map((character) => (
               <Grid
                 xs={12}
                 md={6}
                 lg={4}
-                key={company.id}
+                key={character.id}
               >
-                <CompanyCard company={company} />
+                <CharacterCard character={character} />
               </Grid>
             ))}
           </Grid>

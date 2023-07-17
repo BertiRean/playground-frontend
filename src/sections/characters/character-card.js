@@ -6,8 +6,8 @@ import { Avatar, Box, Card, CardContent, Divider, Stack, SvgIcon, Typography } f
 
 import PencilIcon from '@heroicons/react/24/solid/PencilIcon';
 
-export const CompanyCard = (props) => {
-  const { company } = props;
+export const CharacterCard = (props) => {
+  const { character } = props;
 
   return (
     <Card
@@ -34,13 +34,13 @@ export const CompanyCard = (props) => {
           gutterBottom
           variant="h5"
         >
-          {company.title}
+          {character.title}
         </Typography>
         <Typography
           align="center"
           variant="body1"
         >
-          {company.description}
+          {character.description}
         </Typography>
       </CardContent>
       <Box sx={{ flexGrow: 1 }} />
@@ -95,6 +95,6 @@ export const CompanyCard = (props) => {
   );
 };
 
-CompanyCard.propTypes = {
-  company: PropTypes.object.isRequired
+CharacterCard.propTypes = {
+  character: PropTypes.object.isRequired
 };
