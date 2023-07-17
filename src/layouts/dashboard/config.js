@@ -30,7 +30,7 @@ export const items = [
   },
   {
     title: 'Characters',
-    path: '/characters',
+    path: '/characters/',
     icon: (
       <SvgIcon fontSize="small">
         <ShoppingBagIcon />

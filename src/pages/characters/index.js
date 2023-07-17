@@ -15,6 +15,7 @@ import {
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CharacterCard } from 'src/sections/characters/character-card';
 import { CharactersSearch } from 'src/sections/characters/characters-search';
+import { useRouter } from 'next/router';
 
 const characters = [
   {
@@ -61,77 +62,87 @@ const characters = [
   }
 ];
 
-const Page = () => (
-  <>
-    <Head>
-      <title>
-        Characters | Playground
-      </title>
-    </Head>
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: 8
-      }}
-    >
-      <Container maxWidth="xl">
-        <Stack spacing={3}>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            spacing={4}
-          >
-            <Stack spacing={1}>
-              <Typography variant="h4">
-                Characters
-              </Typography>
+const Page = () => {
+
+  const router = useRouter();
+
+  const onCreatePress = () => {
+    router.push('/characters/create')
+  }
+
+  return (
+    <>
+      <Head>
+        <title>
+          Characters | Playground
+        </title>
+      </Head>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8
+        }}
+      >
+        <Container maxWidth="xl">
+          <Stack spacing={3}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              spacing={4}
+            >
+              <Stack spacing={1}>
+                <Typography variant="h4">
+                  Characters
+                </Typography>
+              </Stack>
+              <div>
+                <Button
+                  startIcon={(
+                    <SvgIcon fontSize="small">
+                      <PlusIcon />
+                    </SvgIcon>
+                  )}
+                  onClick={onCreatePress}
+                  variant="contained"
+                >
+                  Add
+                </Button>
+              </div>
             </Stack>
-            <div>
-              <Button
-                startIcon={(
-                  <SvgIcon fontSize="small">
-                    <PlusIcon />
-                  </SvgIcon>
-                )}
-                variant="contained"
-              >
-                Add
-              </Button>
-            </div>
+            <CharactersSearch />
+            <Grid
+              container
+              spacing={3}
+            >
+              {characters.map((character) => (
+                <Grid
+                  xs={12}
+                  md={6}
+                  lg={4}
+                  key={character.id}
+                >
+                  <CharacterCard character={character} />
+                </Grid>
+              ))}
+            </Grid>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center'
+              }}
+            >
+              <Pagination
+                count={3}
+                size="small"
+              />
+            </Box>
           </Stack>
-          <CharactersSearch />
-          <Grid
-            container
-            spacing={3}
-          >
-            {characters.map((character) => (
-              <Grid
-                xs={12}
-                md={6}
-                lg={4}
-                key={character.id}
-              >
-                <CharacterCard character={character} />
-              </Grid>
-            ))}
-          </Grid>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          >
-            <Pagination
-              count={3}
-              size="small"
-            />
-          </Box>
-        </Stack>
-      </Container>
-    </Box>
-  </>
-);
+        </Container>
+      </Box>
+    </>
+  );
+}
 
 Page.getLayout = (page) => (
   <DashboardLayout>

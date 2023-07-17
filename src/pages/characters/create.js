@@ -13,7 +13,7 @@ import {
   Unstable_Grid2 as Grid
 } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { WorldBuildingRegister } from 'src/sections/worldbuilding/worldbuilding-register';
+import { CharacterCreate } from 'src/sections/characters/character-create';
 
 const Page = () => (
   <>
@@ -32,9 +32,9 @@ const Page = () => (
       <Container maxWidth="lg">
         <Stack spacing={3}>
           <Typography variant="h4">
-            World Building
+            Create Character
           </Typography>
-          <WorldBuildingRegister />
+          <CharacterCreate />
         </Stack>
       </Container>
     </Box>
