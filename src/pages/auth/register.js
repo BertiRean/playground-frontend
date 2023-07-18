@@ -15,6 +15,7 @@ const Page = () => {
       email: '',
       name: '',
       password: '',
+      validatePassword : '',
       submit: null
     },
     validationSchema: Yup.object({
@@ -30,8 +31,15 @@ const Page = () => {
       password: Yup
         .string()
         .max(255)
-        .required('Password is required')
-    }),
+        .required('Password is required'),
+
+      validatePassword : Yup
+      .string()
+      .required("Please re-type your password")
+      // use oneOf to match one of the values inside the array.
+      // use "ref" to get the value of passwrod.
+      .oneOf([Yup.ref("password")], "Passwords does not match"),
+      }),
     onSubmit: async (values, helpers) => {
       try {
         await auth.signUp(values.email, values.name, values.password);
@@ -127,6 +135,17 @@ const Page = () => {
                   onChange={formik.handleChange}
                   type="password"
                   value={formik.values.password}
+                />
+                <TextField
+                  error={!!(formik.touched.validatePassword && formik.errors.validatePassword)}
+                  fullWidth
+                  helperText={formik.touched.validatePassword && formik.errors.validatePassword}
+                  label="Confirm Password"
+                  name="validatePassword"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="password"
+                  value={formik.values.validatePassword}
                 />
               </Stack>
               {formik.errors.submit && (
