@@ -5,9 +5,17 @@ import ClockIcon from '@heroicons/react/24/solid/ClockIcon';
 import { Avatar, Box, Card, CardContent, Divider, Stack, SvgIcon, Typography } from '@mui/material';
 
 import PencilIcon from '@heroicons/react/24/solid/PencilIcon';
+import { useRouter } from 'next/router';
 
 export const CharacterCard = (props) => {
   const { character } = props;
+
+  const router = useRouter();
+
+  const onCardClick = (event) => {
+    console.log(event);
+    router.push('/characters/prompts', character);
+  }
 
   return (
     <Card
@@ -16,6 +24,7 @@ export const CharacterCard = (props) => {
         flexDirection: 'column',
         height: '100%'
       }}
+      onClick={onCardClick}
     >
       <CardContent>
         <Box
