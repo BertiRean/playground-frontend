@@ -10,6 +10,7 @@ import {
   Stack,
   TextField,
   Checkbox,
+  Avatar
 } from '@mui/material';
 
 export const CharacterCreate = () => {
@@ -54,9 +55,10 @@ export const CharacterCreate = () => {
         />
         <Divider />
         <CardContent>
+          <Stack spacing={3} direction={'row'}>
           <Stack
             spacing={3}
-            sx={{ maxWidth: 1024 }}
+            sx={{ maxWidth: 512 }}
           >
             <TextField
               fullWidth
@@ -93,9 +95,14 @@ export const CharacterCreate = () => {
               )}
             >
             </Autocomplete>
-            <Button variant='contained' style={{maxWidth : 500}}>
-              Upload Image
-            </Button>
+          </Stack>
+          <Avatar sx={{
+            width : 328,
+            height : 328,
+            backgroundColor : 'green'
+          }}>
+            Character Avatar
+          </Avatar>
           </Stack>
         </CardContent>
         <Divider />
