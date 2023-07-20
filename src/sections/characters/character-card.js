@@ -14,7 +14,10 @@ export const CharacterCard = (props) => {
 
   const onCardClick = (event) => {
     console.log(event);
-    router.push('/characters/prompts', character);
+    router.push({
+      pathname : '/characters/prompts',
+      query : character,
+    })
   }
 
   return (
@@ -35,7 +38,9 @@ export const CharacterCard = (props) => {
           }}
         >
           <Avatar
-            variant="square"
+            variant="rounded"
+            src={character.logo}
+            sx={{height : 86, width : 86}}
           />
         </Box>
         <Typography
