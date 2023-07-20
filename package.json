@@ -5,6 +5,7 @@
   "licence": "MIT",
   "homepage": "https://devias.io",
   "private": false,
+  "type": "module",
   "scripts": {
     "dev": "next",
     "build": "next build",
