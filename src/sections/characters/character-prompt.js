@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
 import {
   Autocomplete,
@@ -24,7 +25,7 @@ import {
   Slider
 } from '@mui/material';
 import { Box, maxWidth } from '@mui/system';
-import PropTypes from 'prop-types';
+
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
