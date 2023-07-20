@@ -24,10 +24,10 @@ export const CharacterCreate = () => {
   ]
 
   const [values, setValues] = useState({
-    name : '',
-    description : '',
-    traits : [''],
-    image : '',
+    name: '',
+    description: '',
+    traits: [''],
+    image: '',
   });
 
   const handleChange = useCallback(
@@ -55,54 +55,57 @@ export const CharacterCreate = () => {
         />
         <Divider />
         <CardContent>
-          <Stack spacing={3} direction={'row'}>
-          <Stack
-            spacing={3}
-            sx={{ maxWidth: 512 }}
-          >
-            <TextField
-              fullWidth
-              label="Name"
-              name="name"
-              onChange={handleChange}
-              value={values.name}
-            />
-            <TextField
-              fullWidth
-              label="Description"
-              name="description"
-              onChange={handleChange}
-              value={values.description}
-              multiline
-            />
-            <Autocomplete
-              multiple
-              id="checkboxes-tags-demo"
-              options={char_traits}
-              disableCloseOnSelect
-              renderOption={(props, option, { selected }) => (
-                <li {...props}>
-                  <Checkbox
-                    style={{ marginRight: 8 }}
-                    checked={selected}
-                  />
-                  {option}
-                </li>
-              )}
-              style={{ width: 500 }}
-              renderInput={(params) => (
-                <TextField {...params} label="Traits" placeholder="" />
-              )}
+          <Stack spacing={3}
+            direction={'row'}>
+            <Stack
+              spacing={3}
+              sx={{ maxWidth: 512 }}
             >
-            </Autocomplete>
-          </Stack>
-          <Avatar sx={{
-            width : 328,
-            height : 328,
-            backgroundColor : 'green'
-          }}>
-            Character Avatar
-          </Avatar>
+              <TextField
+                fullWidth
+                label="Name"
+                name="name"
+                onChange={handleChange}
+                value={values.name}
+              />
+              <TextField
+                fullWidth
+                label="Description"
+                name="description"
+                onChange={handleChange}
+                value={values.description}
+                multiline
+              />
+              <Autocomplete
+                multiple
+                id="checkboxes-tags-demo"
+                options={char_traits}
+                disableCloseOnSelect
+                renderOption={(props, option, { selected }) => (
+                  <li {...props}>
+                    <Checkbox
+                      style={{ marginRight: 8 }}
+                      checked={selected}
+                    />
+                    {option}
+                  </li>
+                )}
+                style={{ width: 500 }}
+                renderInput={(params) => (
+                  <TextField {...params}
+                    label="Traits"
+                    placeholder="" />
+                )}
+              >
+              </Autocomplete>
+            </Stack>
+            <Avatar sx={{
+              width: 328,
+              height: 328,
+              backgroundColor: 'green'
+            }}>
+              Character Avatar
+            </Avatar>
           </Stack>
         </CardContent>
         <Divider />

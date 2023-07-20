@@ -36,34 +36,34 @@ export const CharacterPrompt = (props) => {
   const { character } = props;
 
   const [values, setValues] = useState({
-    model : '',
-    voice : '',
-    dialogues : 2,
+    model: '',
+    voice: '',
+    dialogues: 2,
   });
 
   const models = [
     {
-      value : 10,
-      name : 'OpenAI'
+      value: 10,
+      name: 'OpenAI'
     },
     {
-      value : 20,
-      name : 'Llama'
+      value: 20,
+      name: 'Llama'
     }
   ];
 
   const voices = [
     {
-      value : 10,
-      name : 'Jack Sparrow'
+      value: 10,
+      name: 'Jack Sparrow'
     },
     {
-      value : 20,
-      name : 'Christian Bale'
+      value: 20,
+      name: 'Christian Bale'
     },
     {
-      value : 30,
-      name : 'Emily Blunt'
+      value: 30,
+      name: 'Emily Blunt'
     }
   ]
 
@@ -84,10 +84,11 @@ export const CharacterPrompt = (props) => {
     []
   );
 
-  const Reply = ({text, props}) => {
+  const Reply = ({ text, props }) => {
     return (
       <Box>
-        <Stack direction={'row'} spacing={3}>
+        <Stack direction={'row'}
+          spacing={3}>
           <Typography>{text}</Typography>
           <ThumbUpIcon></ThumbUpIcon>
           <ThumbDownIcon></ThumbDownIcon>
@@ -105,15 +106,17 @@ export const CharacterPrompt = (props) => {
         />
         <Divider />
         <CardContent>
-          <Grid container spacing={3}>
-            <Grid item xs={6}>
+          <Grid container
+            spacing={3}>
+            <Grid item
+              xs={6}>
               <Stack direction='column'>
-                <Avatar 
-                sx={{
-                  width: 328,
-                  height: 328,
-                }}
-                src={character.logo}
+                <Avatar
+                  sx={{
+                    width: 328,
+                    height: 328,
+                  }}
+                  src={character.logo}
                 >
                   Character Avatar
                 </Avatar>
@@ -122,8 +125,10 @@ export const CharacterPrompt = (props) => {
                 </Typography>
               </Stack>
             </Grid>
-            <Grid item xs={6}>
-              <Stack direction={'column'} spacing={3}>
+            <Grid item
+              xs={6}>
+              <Stack direction={'column'}
+                spacing={3}>
                 <Button variant='contained'>Generate Dialogue</Button>
                 <TextField
                   fullWidth
@@ -163,7 +168,8 @@ export const CharacterPrompt = (props) => {
                     </option>
                   ))}
                 </TextField>
-                <Typography id="input-slider" gutterBottom>
+                <Typography id="input-slider"
+                  gutterBottom>
                   Dialogue Lines: {values.dialogues}
                 </Typography>
                 <Slider
@@ -178,8 +184,9 @@ export const CharacterPrompt = (props) => {
                 >
                 </Slider>
                 {
-                  [ ...Array(values.dialogues).keys() ].map( (item, idx) => (
-                    <Reply key={item + 1} text="Kill them by the glory of the queen"></Reply>
+                  [...Array(values.dialogues).keys()].map((item, idx) => (
+                    <Reply key={item + 1}
+                      text="Kill them by the glory of the queen"></Reply>
                   ))
                 }
               </Stack>
