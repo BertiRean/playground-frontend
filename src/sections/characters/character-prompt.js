@@ -12,7 +12,6 @@ import {
   TextField,
   Checkbox,
   Avatar,
-  Grid,
   Typography,
   Paper,
   List,
@@ -26,7 +25,7 @@ import {
 } from '@mui/material';
 import { Box, maxWidth } from '@mui/system';
 
-import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
+import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
@@ -106,8 +105,8 @@ export const CharacterPrompt = (props) => {
         />
         <Divider />
         <CardContent>
-          <Grid2 container spacing={3}>
-            <Grid2 item xs={6}>
+          <Grid container spacing={3}>
+            <Grid item xs={6}>
               <Stack direction='column'>
                 <Avatar 
                 sx={{
@@ -122,8 +121,8 @@ export const CharacterPrompt = (props) => {
                   {character.description}
                 </Typography>
               </Stack>
-            </Grid2>
-            <Grid2 item xs={6}>
+            </Grid>
+            <Grid item xs={6}>
               <Stack direction={'column'} spacing={3}>
                 <Button variant='contained'>Generate Dialogue</Button>
                 <TextField
@@ -184,8 +183,8 @@ export const CharacterPrompt = (props) => {
                   ))
                 }
               </Stack>
-            </Grid2>
-          </Grid2>
+            </Grid>
+          </Grid>
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
