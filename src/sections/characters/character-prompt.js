@@ -178,8 +178,8 @@ export const CharacterPrompt = (props) => {
                 >
                 </Slider>
                 {
-                  Array.from(Array(values.dialogues).keys()).map((item) => (
-                    <Reply text={'Kill him and bring me his heart'}></Reply>
+                  Array(values.dialogues).map((value, index) => (
+                    <Reply key={index} text={'Kill him and bring me his heart'}></Reply>
                   ))
                 }
               </Stack>
