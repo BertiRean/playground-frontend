@@ -16,8 +16,8 @@ export const ConfirmDialog = (props) =>
         {content}
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={handleAgree}>{agreeTitle}</Button>
-        <Button onClick={handleClose}>{closeTitle}</Button>
+        <Button variant='contained' autoFocus onClick={handleAgree}>{agreeTitle}</Button>
+        <Button variant='contained' onClick={handleClose}>{closeTitle}</Button>
       </DialogActions>
     </Dialog>
   )
