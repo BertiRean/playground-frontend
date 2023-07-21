@@ -14,7 +14,6 @@ export const CharacterCard = (props) => {
   const [showDelete, setShowDelete] = useState(false);
 
   const onCardClick = (event) => {
-    console.log(event);
     router.push({
       pathname : '/characters/prompts',
       query : character,
@@ -23,6 +22,13 @@ export const CharacterCard = (props) => {
 
   const onDeleteClick = (event) => {
     setShowDelete(!showDelete)
+  }
+
+  const onEditClick = (event) => {
+    router.push({
+      pathname : '/characters/edit',
+      query : character,
+    })
   }
 
   return (
@@ -109,7 +115,7 @@ export const CharacterCard = (props) => {
               color="action"
               fontSize="small"
             >
-              <PencilIcon />
+              <PencilIcon onClick={onEditClick} />
             </SvgIcon>
 
             <SvgIcon
