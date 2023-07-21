@@ -16,6 +16,8 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CharacterCard } from 'src/sections/characters/character-card';
 import { CharactersSearch } from 'src/sections/characters/characters-search';
 import { useRouter } from 'next/router';
+import { prefixSearch } from 'src/utils/prefix-search';
+import { useState } from 'react';
 
 const characters = [
   {
@@ -65,10 +67,19 @@ const characters = [
 const Page = () => {
 
   const router = useRouter();
+  const [searchText, setSearchText] = useState('');
 
   const onCreatePress = () => {
     router.push('/characters/create')
   }
+
+  const onSearchChange = (event) => {
+    setSearchText(event.target.value);
+  }
+
+  const filteredChars = characters.filter((item) => {
+    return prefixSearch(item.title, searchText);
+  })
 
   return (
     <>
@@ -110,12 +121,12 @@ const Page = () => {
                 </Button>
               </div>
             </Stack>
-            <CharactersSearch />
+            <CharactersSearch onTextChange={onSearchChange} />
             <Grid
               container
               spacing={3}
             >
-              {characters.map((character) => (
+              {filteredChars.map((character) => (
                 <Grid
                   xs={12}
                   md={6}
