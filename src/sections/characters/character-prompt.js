@@ -36,8 +36,8 @@ export const CharacterPrompt = (props) => {
   const { character } = props;
 
   const [values, setValues] = useState({
-    model: '',
-    voice: '',
+    model: 10,
+    voice: 10,
     dialogues: 2,
   });
 
@@ -110,9 +110,10 @@ export const CharacterPrompt = (props) => {
             spacing={3}>
             <Grid item
               xs={6}>
-              <Stack direction='column'>
+              <Stack direction='column' spacing={3}>
                 <Avatar
                   sx={{
+                    alignSelf : 'center',
                     width: 328,
                     height: 328,
                   }}
@@ -120,6 +121,7 @@ export const CharacterPrompt = (props) => {
                 >
                   Character Avatar
                 </Avatar>
+                <Box></Box>
                 <Typography>
                   {character.description}
                 </Typography>
