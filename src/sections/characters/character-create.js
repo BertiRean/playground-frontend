@@ -57,6 +57,11 @@ export const CharacterCreate = () => {
         <CardContent>
           <Stack spacing={3}
             direction={'row'}>
+            <Avatar sx={{
+              width: 328,
+              height: 328,
+            }}>
+            </Avatar>
             <Stack
               spacing={3}
               sx={{ maxWidth: 512 }}
@@ -99,13 +104,7 @@ export const CharacterCreate = () => {
               >
               </Autocomplete>
             </Stack>
-            <Avatar sx={{
-              width: 328,
-              height: 328,
-              backgroundColor: 'green'
-            }}>
-              Character Avatar
-            </Avatar>
+
           </Stack>
         </CardContent>
         <Divider />
