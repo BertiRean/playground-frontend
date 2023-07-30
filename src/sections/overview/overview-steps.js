@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { CharacterPrompt } from '../characters/character-prompt';
 import { CharacterPromptDefault } from '../characters/character-default';
 import { useState } from 'react';
+import Link from 'next/link';
 
 
 export const OverviewSteps = (props) => {
@@ -32,8 +33,12 @@ export const OverviewSteps = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <Alert severity='warning'>You need create a worldbuilding</Alert>
-      <Alert severity='warning'>Your don't have characters created</Alert>
+      <Alert severity='warning'>You will need create a Worldbuilding in order to use Dialogue Generator, you can do it {
+        <Link href='/worldbuilding'>here</Link>
+      }</Alert>
+      <Alert severity='warning'>Your character list is empty, you will need create one of them in order to use the Dialogue Generator,
+      you can do it {<Link href='/characters/create'>here</Link>}
+      </Alert>
       <CharacterPromptDefault></CharacterPromptDefault>
     </Box>
   )
