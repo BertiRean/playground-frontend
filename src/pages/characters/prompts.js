@@ -38,7 +38,7 @@ const Page = () => {
         <Container maxWidth="lg">
           <Stack spacing={3}>
             <Typography variant="h4">
-              Create Character
+              Dialogue Creation
             </Typography>
             <CharacterPrompt character={character} />
           </Stack>
