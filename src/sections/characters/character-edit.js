@@ -118,6 +118,9 @@ export const CharacterEdit = (props) => {
           <Button variant="contained">
             Update
           </Button>
+          <Button variant="contained">
+            Delete
+          </Button>
         </CardActions>
       </Card>
     </form>
