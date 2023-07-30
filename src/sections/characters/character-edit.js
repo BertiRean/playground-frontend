@@ -16,7 +16,7 @@ import {
 
 export const CharacterEdit = (props) => {
 
-  const {character} = props;
+  const { character } = props;
 
   const char_traits = [
     'Brave',
@@ -60,6 +60,14 @@ export const CharacterEdit = (props) => {
         <CardContent>
           <Stack spacing={3}
             direction={'row'}>
+            <Avatar sx={{
+              width: 328,
+              height: 328,
+            }}
+              src={character.logo}
+            >
+              Character Avatar
+            </Avatar>
             <Stack
               spacing={3}
               sx={{ maxWidth: 512 }}
@@ -102,14 +110,7 @@ export const CharacterEdit = (props) => {
               >
               </Autocomplete>
             </Stack>
-            <Avatar sx={{
-              width: 328,
-              height: 328,
-            }}
-            src={character.logo}
-            >
-              Character Avatar
-            </Avatar>
+
           </Stack>
         </CardContent>
         <Divider />
@@ -124,6 +125,6 @@ export const CharacterEdit = (props) => {
 };
 
 
-CharacterEdit.propTypes = { 
-  character : PropTypes.object.isRequired
+CharacterEdit.propTypes = {
+  character: PropTypes.object.isRequired
 }
