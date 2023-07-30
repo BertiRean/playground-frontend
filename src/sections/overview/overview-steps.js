@@ -24,7 +24,7 @@ export const OverviewSteps = (props) => {
         <DialogTitle>Welcome to your tool {username}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            We're happy that you choose our tool, 
+            We are happy that you choose our tool, 
           </DialogContentText>
         </DialogContent>
         <DialogActions>
