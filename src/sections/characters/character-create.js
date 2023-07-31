@@ -14,16 +14,9 @@ import {
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { FormSchemas } from 'src/utils/form-schemas';
+import { CHAR_TRAITS } from 'src/constants/character-traits';
 
 export const CharacterCreate = () => {
-
-  const char_traits = [
-    'Brave',
-    'Intelligent',
-    'Agile',
-    'Thinker',
-    'Protector'
-  ]
 
   const formik = useFormik({
     initialValues: {
@@ -86,7 +79,7 @@ export const CharacterCreate = () => {
               <Autocomplete
                 multiple
                 id="checkboxes-tags-demo"
-                options={char_traits}
+                options={CHAR_TRAITS}
                 disableCloseOnSelect
                 renderOption={(props, option, { selected }) => (
                   <li {...props}>

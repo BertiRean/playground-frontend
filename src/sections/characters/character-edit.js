@@ -13,18 +13,25 @@ import {
   Checkbox,
   Avatar
 } from '@mui/material';
+import { CHAR_TRAITS } from 'src/constants/character-traits';
+import { useFormik } from 'formik';
+import { FormSchemas } from 'src/utils/form-schemas';
 
 export const CharacterEdit = (props) => {
 
   const { character } = props;
 
-  const char_traits = [
-    'Brave',
-    'Intelligent',
-    'Agile',
-    'Thinker',
-    'Protector'
-  ]
+  const formik = useFormik({
+    initialValues : {
+      name : character.title,
+      description : character.description,
+      traits : [],
+      image : character.logo,
+    },
+
+    validationSchema : FormSchemas.characterSchema.creation,
+
+  })
 
   const [values, setValues] = useState({
     name: character.title,
@@ -73,24 +80,30 @@ export const CharacterEdit = (props) => {
               sx={{ maxWidth: 512 }}
             >
               <TextField
+                error={!!(formik.touched.name && formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
                 fullWidth
                 label="Name"
                 name="name"
-                onChange={handleChange}
-                value={values.name}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.name}
               />
               <TextField
+                error={!!(formik.touched.description && formik.errors.description)}
+                helperText={formik.touched.description && formik.errors.description}
                 fullWidth
                 label="Description"
                 name="description"
-                onChange={handleChange}
-                value={values.description}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.description}
                 multiline
               />
               <Autocomplete
                 multiple
                 id="checkboxes-tags-demo"
-                options={char_traits}
+                options={CHAR_TRAITS}
                 disableCloseOnSelect
                 renderOption={(props, option, { selected }) => (
                   <li {...props}>
