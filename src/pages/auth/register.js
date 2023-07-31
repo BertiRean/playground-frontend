@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
+import { FormSchemas } from 'src/utils/form-schemas';
 
 const Page = () => {
   const router = useRouter();
@@ -18,28 +19,7 @@ const Page = () => {
       validatePassword : '',
       submit: null
     },
-    validationSchema: Yup.object({
-      email: Yup
-        .string()
-        .email('Must be a valid email')
-        .max(255)
-        .required('Email is required'),
-      name: Yup
-        .string()
-        .max(255)
-        .required('Name is required'),
-      password: Yup
-        .string()
-        .max(255)
-        .required('Password is required'),
-
-      validatePassword : Yup
-      .string()
-      .required("Please re-type your password")
-      // use oneOf to match one of the values inside the array.
-      // use "ref" to get the value of passwrod.
-      .oneOf([Yup.ref("password")], "Passwords does not match"),
-      }),
+    validationSchema: FormSchemas.userSchema.register,
     onSubmit: async (values, helpers) => {
       try {
         await auth.signUp(values.email, values.name, values.password);

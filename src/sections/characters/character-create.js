@@ -12,6 +12,8 @@ import {
   Checkbox,
   Avatar
 } from '@mui/material';
+import { useFormik } from 'formik';
+import { FormSchemas } from 'src/utils/form-schemas';
 
 export const CharacterCreate = () => {
 
@@ -23,22 +25,16 @@ export const CharacterCreate = () => {
     'Protector'
   ]
 
-  const [values, setValues] = useState({
-    name: '',
-    description: '',
-    traits: [''],
-    image: '',
-  });
-
-  const handleChange = useCallback(
-    (event) => {
-      setValues((prevState) => ({
-        ...prevState,
-        [event.target.name]: event.target.value
-      }));
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      description: '',
+      traits: [],
+      image: '',
     },
-    []
-  );
+    validationSchema: FormSchemas.characterSchema.creation,
+    onSubmit: null,
+  })
 
   const handleSubmit = useCallback(
     (event) => {
@@ -67,18 +63,24 @@ export const CharacterCreate = () => {
               sx={{ maxWidth: 512 }}
             >
               <TextField
+                error={!!(formik.touched.name && formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
                 fullWidth
                 label="Name"
                 name="name"
-                onChange={handleChange}
-                value={values.name}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.name}
               />
               <TextField
+                error={!!(formik.touched.description && formik.errors.description)}
+                helperText={formik.touched.description && formik.errors.description}
                 fullWidth
                 label="Description"
                 name="description"
-                onChange={handleChange}
-                value={values.description}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.description}
                 multiline
               />
               <Autocomplete

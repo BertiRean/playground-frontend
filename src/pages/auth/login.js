@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
+import { FormSchemas } from 'src/utils/form-schemas';
 
 const Page = () => {
   const router = useRouter();
@@ -29,17 +30,7 @@ const Page = () => {
       password: 'Password123!',
       submit: null
     },
-    validationSchema: Yup.object({
-      email: Yup
-        .string()
-        .email('Must be a valid email')
-        .max(255)
-        .required('Email is required'),
-      password: Yup
-        .string()
-        .max(255)
-        .required('Password is required')
-    }),
+    validationSchema: FormSchemas.userSchema.login,
     onSubmit: async (values, helpers) => {
       try {
         await auth.signIn(values.email, values.password);
