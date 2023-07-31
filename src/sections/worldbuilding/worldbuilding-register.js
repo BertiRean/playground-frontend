@@ -9,21 +9,18 @@ import {
   Stack,
   TextField
 } from '@mui/material';
+import { useFormik } from 'formik';
+import { FormSchemas } from 'src/utils/form-schemas';
 
 export const WorldBuildingRegister = () => {
-  const [values, setValues] = useState({
-    world_context : '',
-  });
 
-  const handleChange = useCallback(
-    (event) => {
-      setValues((prevState) => ({
-        ...prevState,
-        [event.target.name]: event.target.value
-      }));
+  const formik = useFormik({
+    initialValues: {
+      description: '',
     },
-    []
-  );
+
+    validationSchema: FormSchemas.worldBuildingSchema,
+  })
 
   const handleSubmit = useCallback(
     (event) => {
@@ -46,12 +43,15 @@ export const WorldBuildingRegister = () => {
             sx={{ maxWidth: 1024 }}
           >
             <TextField
+              error={!!(formik.touched.description && formik.errors.description)}
+              helperText={formik.touched.description && formik.errors.description}
               fullWidth
               label="World Context"
-              name="world_context"
-              onChange={handleChange}
+              name="description"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
               multiline={true}
-              value={values.world_context}
+              value={formik.values.description}
             />
           </Stack>
         </CardContent>

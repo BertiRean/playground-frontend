@@ -52,6 +52,13 @@ export const FormSchemas =
       .required('Character Description is required')
       .min(2),
     })
-  }
+  },
+
+  worldBuildingSchema : Yup.object({
+    description : Yup.
+    string()
+    .required('The world building description is required')
+    .min(2),
+  })
 };
 
