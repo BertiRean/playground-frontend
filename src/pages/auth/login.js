@@ -3,7 +3,6 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import {
   Alert,
   Box,
@@ -19,11 +18,27 @@ import {
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 import { FormSchemas } from 'src/utils/form-schemas';
+import { UserRepository } from 'src/lib/user/repositories/user.repositories';
+import { useCookies } from 'react-cookie';
 
 const Page = () => {
+
   const router = useRouter();
   const auth = useAuth();
   const [method, setMethod] = useState('email');
+  const [cookies, setCookie] = useCookies(['user'])
+
+  const onLogin = async (email, password) => {
+    try {
+      const data = await UserRepository.login(email, password);
+      setCookie('user', data.access_token, {
+        path : '/',
+      })
+    } catch (error) {
+      
+    }
+  }
+
   const formik = useFormik({
     initialValues: {
       email: 'demo@devias.io',
@@ -32,14 +47,16 @@ const Page = () => {
     },
     validationSchema: FormSchemas.userSchema.login,
     onSubmit: async (values, helpers) => {
-      try {
-        await auth.signIn(values.email, values.password);
-        router.push('/');
-      } catch (err) {
-        helpers.setStatus({ success: false });
-        helpers.setErrors({ submit: err.message });
-        helpers.setSubmitting(false);
-      }
+      await onLogin(values.email, values.password)
+
+      // try {
+      //   await auth.signIn(values.email, values.password);
+      //   router.push('/');
+      // } catch (err) {
+      //   helpers.setStatus({ success: false });
+      //   helpers.setErrors({ submit: err.message });
+      //   helpers.setSubmitting(false);
+      // }
     }
   });
 
