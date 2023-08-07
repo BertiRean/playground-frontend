@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   Autocomplete,
   Button,
@@ -16,28 +16,26 @@ import { useFormik } from 'formik';
 import { FormSchemas } from 'src/utils/form-schemas';
 import { CHAR_TRAITS } from 'src/constants/character-traits';
 
-export const CharacterCreate = () => {
+
+export const CharacterCreate = (props) => {
+  
+  const {handleSubmit} = props;
 
   const formik = useFormik({
     initialValues: {
       name: '',
       description: '',
       traits: [],
-      image: '',
+      image : '121',
     },
     validationSchema: FormSchemas.characterSchema.creation,
-    onSubmit: null,
+    onSubmit : values => {
+      handleSubmit(values)
+    }
   })
 
-  const handleSubmit = useCallback(
-    (event) => {
-      event.preventDefault();
-    },
-    []
-  );
-
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={formik.handleSubmit}>
       <Card>
         <CardHeader
           title="Write here information about your new character"
@@ -96,6 +94,7 @@ export const CharacterCreate = () => {
                     label="Traits"
                     placeholder="" />
                 )}
+                onChange={(event, values) => {formik.setFieldValue('traits', values)}}
               >
               </Autocomplete>
             </Stack>
@@ -104,7 +103,7 @@ export const CharacterCreate = () => {
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained">
+          <Button variant="contained" type='submit'>
             Create
           </Button>
         </CardActions>
@@ -112,3 +111,7 @@ export const CharacterCreate = () => {
     </form>
   );
 };
+
+CharacterCreate.propTypes = {
+  handleSubmit: PropTypes.func,
+}
