@@ -22,11 +22,6 @@ const login = async (email, password) => {
       return response.data
     }
   })
-  .catch(error => {
-    console.log(error)
-    return undefined
-  })
-
 }
 
 export const UserRepository =

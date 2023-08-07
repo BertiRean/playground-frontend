@@ -28,17 +28,6 @@ const Page = () => {
   const [method, setMethod] = useState('email');
   const [cookies, setCookie] = useCookies(['user'])
 
-  const onLogin = async (email, password) => {
-    try {
-      const data = await UserRepository.login(email, password);
-      setCookie('user', data.access_token, {
-        path : '/',
-      })
-    } catch (error) {
-      
-    }
-  }
-
   const formik = useFormik({
     initialValues: {
       email: 'demo@devias.io',
@@ -47,16 +36,17 @@ const Page = () => {
     },
     validationSchema: FormSchemas.userSchema.login,
     onSubmit: async (values, helpers) => {
-      await onLogin(values.email, values.password)
-
-      // try {
-      //   await auth.signIn(values.email, values.password);
-      //   router.push('/');
-      // } catch (err) {
-      //   helpers.setStatus({ success: false });
-      //   helpers.setErrors({ submit: err.message });
-      //   helpers.setSubmitting(false);
-      // }
+      try {
+        const data = await UserRepository.login(values.email, values.password);
+        setCookie('user', data.access_token, {
+          path: '/',
+        })
+        router.push('/')
+      } catch (error) {
+        helpers.setStatus({ success: false });
+        helpers.setErrors({ submit: error.response.data.detail });
+        helpers.setSubmitting(false);
+      }
     }
   });
 
