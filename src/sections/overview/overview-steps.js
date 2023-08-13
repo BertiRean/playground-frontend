@@ -9,19 +9,19 @@ import Link from 'next/link';
 
 export const OverviewSteps = (props) => {
 
+  const {user} = props;
   const steps = [
     'Create a World Context',
     'Create a Character',
     'You\'re ready, now try generate dialogue quotes'
   ]
 
-  const username = "Gabriela Bohorquez"
   const [isOpen, setIsOpen] = useState(true);
 
   return (
     <Box sx={{width : '100%'}}>
       <Dialog open={isOpen}>
-        <DialogTitle>Welcome to your tool {username}</DialogTitle>
+        <DialogTitle>Welcome to your tool {user.name}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             We are happy that you choose our tool, 
@@ -43,3 +43,7 @@ export const OverviewSteps = (props) => {
     </Box>
   )
 }
+
+OverviewSteps.propTypes = {
+  user: PropTypes.object
+};

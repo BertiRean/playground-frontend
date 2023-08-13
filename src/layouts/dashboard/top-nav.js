@@ -17,6 +17,7 @@ import {
 import { alpha } from '@mui/material/styles';
 import { usePopover } from 'src/hooks/use-popover';
 import { AccountPopover } from './account-popover';
+import { useCookies } from 'react-cookie';
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
@@ -26,6 +27,8 @@ export const TopNav = (props) => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   const accountPopover = usePopover();
 
+  const [cookies] = useCookies(['user'])
+  const user = cookies['user']
   return (
     <>
       <Box
@@ -73,7 +76,7 @@ export const TopNav = (props) => {
             spacing={2}
           >
             <Typography>
-              Anika Visser
+              {user.name}
             </Typography>
             <Avatar
               onClick={accountPopover.handleOpen}
@@ -89,6 +92,7 @@ export const TopNav = (props) => {
         </Stack>
       </Box>
       <AccountPopover
+        user={user}
         anchorEl={accountPopover.anchorRef.current}
         open={accountPopover.open}
         onClose={accountPopover.handleClose}

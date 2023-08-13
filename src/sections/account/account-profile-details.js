@@ -11,6 +11,9 @@ import {
   Unstable_Grid2 as Grid
 } from '@mui/material';
 
+import PropTypes from 'prop-types';
+import { useFormik } from 'formik';
+
 const states = [
   {
     value: 'alabama',
@@ -30,7 +33,17 @@ const states = [
   }
 ];
 
-export const AccountProfileDetails = () => {
+export const AccountProfileDetails = (props) => {
+  const {user} = props;
+
+  const formik = useFormik({
+    initialValues : {
+      name : user.name,
+      email : user.email,
+      photo : user.photo,
+    },
+  })
+
   const [values, setValues] = useState({
     firstName: 'Anika',
     lastName: 'Visser',
@@ -83,22 +96,10 @@ export const AccountProfileDetails = () => {
                   helperText="Please specify the first name"
                   label="First name"
                   name="firstName"
-                  onChange={handleChange}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   required
-                  value={values.firstName}
-                />
-              </Grid>
-              <Grid
-                xs={12}
-                md={6}
-              >
-                <TextField
-                  fullWidth
-                  label="Last name"
-                  name="lastName"
-                  onChange={handleChange}
-                  required
-                  value={values.lastName}
+                  value={formik.values.name}
                 />
               </Grid>
               <Grid
@@ -109,60 +110,11 @@ export const AccountProfileDetails = () => {
                   fullWidth
                   label="Email Address"
                   name="email"
-                  onChange={handleChange}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   required
-                  value={values.email}
+                  value={formik.values.email}
                 />
-              </Grid>
-              <Grid
-                xs={12}
-                md={6}
-              >
-                <TextField
-                  fullWidth
-                  label="Phone Number"
-                  name="phone"
-                  onChange={handleChange}
-                  type="number"
-                  value={values.phone}
-                />
-              </Grid>
-              <Grid
-                xs={12}
-                md={6}
-              >
-                <TextField
-                  fullWidth
-                  label="Country"
-                  name="country"
-                  onChange={handleChange}
-                  required
-                  value={values.country}
-                />
-              </Grid>
-              <Grid
-                xs={12}
-                md={6}
-              >
-                <TextField
-                  fullWidth
-                  label="Select State"
-                  name="state"
-                  onChange={handleChange}
-                  required
-                  select
-                  SelectProps={{ native: true }}
-                  value={values.state}
-                >
-                  {states.map((option) => (
-                    <option
-                      key={option.value}
-                      value={option.value}
-                    >
-                      {option.label}
-                    </option>
-                  ))}
-                </TextField>
               </Grid>
             </Grid>
           </Box>
@@ -176,4 +128,9 @@ export const AccountProfileDetails = () => {
       </Card>
     </form>
   );
+};
+
+AccountProfileDetails.propTypes = 
+{
+  user : PropTypes.object,
 };

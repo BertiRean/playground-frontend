@@ -20,13 +20,14 @@ import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 import { FormSchemas } from 'src/utils/form-schemas';
 import { UserRepository } from 'src/lib/user/repositories/user.repositories';
 import { useCookies } from 'react-cookie';
+import { da } from 'date-fns/locale';
 
 const Page = () => {
 
   const router = useRouter();
   const auth = useAuth();
   const [method, setMethod] = useState('email');
-  const [cookies, setCookie] = useCookies(['user'])
+  const [cookies, setCookie] = useCookies(['user', 'token'])
 
   const formik = useFormik({
     initialValues: {
@@ -38,9 +39,14 @@ const Page = () => {
     onSubmit: async (values, helpers) => {
       try {
         const data = await UserRepository.login(values.email, values.password);
-        setCookie('user', data.access_token, {
+        setCookie('user', data.user, {
           path: '/',
         })
+        setCookie('token', data.token, {
+          path : '/',
+          httpOnly : true,
+        })
+        auth.signIn(data.user);
         router.push('/')
       } catch (error) {
         helpers.setStatus({ success: false });

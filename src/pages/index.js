@@ -11,40 +11,46 @@ import { OverviewTotalCustomers } from 'src/sections/overview/overview-total-cus
 import { OverviewTotalProfit } from 'src/sections/overview/overview-total-profit';
 import { OverviewTraffic } from 'src/sections/overview/overview-traffic';
 import { OverviewSteps } from 'src/sections/overview/overview-steps';
+import { useCookies } from 'react-cookie';
 
 const now = new Date();
 
-const Page = () => (
-  <>
-    <Head>
-      <title>
-        Overview | Devias Kit
-      </title>
-    </Head>
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: 8
-      }}
-    >
-      <Container maxWidth="xl">
-        <Grid
-          container
-          spacing={3}
-        >
+const Page = () => {
+  const [cookies, setCookies] = useCookies(['user'])
+  const user = cookies['user']
+
+  return (
+    <>
+      <Head>
+        <title>
+          Overview | Devias Kit
+        </title>
+      </Head>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8
+        }}
+      >
+        <Container maxWidth="xl">
           <Grid
-            xs={12}
-            sm={12}
-            lg={12}
+            container
+            spacing={3}
           >
-            <OverviewSteps></OverviewSteps>
+            <Grid
+              xs={12}
+              sm={12}
+              lg={12}
+            >
+              <OverviewSteps user={user}></OverviewSteps>
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
-    </Box>
-  </>
-);
+        </Container>
+      </Box>
+    </>
+  )
+}
 
 Page.getLayout = (page) => (
   <DashboardLayout>

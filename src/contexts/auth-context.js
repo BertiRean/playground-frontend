@@ -127,27 +127,23 @@ export const AuthProvider = (props) => {
     });
   };
 
-  const signIn = async (email, password) => {
-    if (email !== 'demo@devias.io' || password !== 'Password123!') {
-      throw new Error('Please check your email and password');
-    }
-
+  const signIn = async (user) => {
     try {
       window.sessionStorage.setItem('authenticated', 'true');
     } catch (err) {
       console.error(err);
     }
 
-    const user = {
-      id: '5e86809283e28b96d2d38537',
+    const userData = {
+      id: user._id,
       avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: 'Anika Visser',
-      email: 'anika.visser@devias.io'
+      name: user.name,
+      email: user.email,
     };
 
     dispatch({
       type: HANDLERS.SIGN_IN,
-      payload: user
+      payload: userData
     });
   };
 
