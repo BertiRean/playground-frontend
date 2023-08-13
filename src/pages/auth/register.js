@@ -7,6 +7,7 @@ import { Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 import { FormSchemas } from 'src/utils/form-schemas';
+import { UserRepository } from 'src/lib/user/repositories/user.repositories';
 
 const Page = () => {
   const router = useRouter();
@@ -17,16 +18,15 @@ const Page = () => {
       name: '',
       password: '',
       validatePassword : '',
-      submit: null
     },
     validationSchema: FormSchemas.userSchema.register,
     onSubmit: async (values, helpers) => {
       try {
-        await auth.signUp(values.email, values.name, values.password);
-        router.push('/');
+        const data = await UserRepository.signUp(values.name, values.email, values.password);
+        router.push('/auth/login')
       } catch (err) {
         helpers.setStatus({ success: false });
-        helpers.setErrors({ submit: err.message });
+        helpers.setErrors({ submit: err.response.data.detail });
         helpers.setSubmitting(false);
       }
     }

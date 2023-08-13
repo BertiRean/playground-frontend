@@ -23,7 +23,25 @@ const login = async (email, password) => {
   })
 }
 
+const signUp = async(name, email, password) => {
+  const url = "http://127.0.0.1:8000/auth/register"
+  const user = {
+    name : name,
+    email : email,
+    password : password
+  };
+
+  return await axios.post(
+    url,
+    user,
+  ).then(response => {
+    if (response.status == 200)
+      return response.data
+  })
+}
+
 export const UserRepository =
 {
     login : login,
+    signUp : signUp,
 }
