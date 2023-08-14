@@ -11,12 +11,16 @@ import {
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { FormSchemas } from 'src/utils/form-schemas';
+import PropTypes from 'prop-types';
 
-export const WorldBuildingRegister = () => {
+
+export const WorldBuildingRegister = (props) => {
+
+  const {worldbuildingText} = props;
 
   const formik = useFormik({
     initialValues: {
-      description: '',
+      description: worldbuildingText,
     },
 
     validationSchema: FormSchemas.worldBuildingSchema,
@@ -65,3 +69,7 @@ export const WorldBuildingRegister = () => {
     </form>
   );
 };
+
+WorldBuildingRegister.propTypes = {
+  worldbuildingText : PropTypes.string.isRequired,
+}
