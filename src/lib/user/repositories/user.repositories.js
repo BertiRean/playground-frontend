@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setClientToken } from "src/lib/http/client/axios.client";
 
 
 const login = async (email, password) => {
@@ -18,6 +19,7 @@ const login = async (email, password) => {
   )
   .then(response => {
     if (response.status == 200){
+      setClientToken(response.data.token)
       return response.data
     }
   })
