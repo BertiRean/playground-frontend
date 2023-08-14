@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import {
   Button,
   Card,
@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 export const WorldBuildingRegister = (props) => {
 
   const {worldbuildingText} = props;
+  const isEmpty = worldbuildingText === "";
 
   const formik = useFormik({
     initialValues: {
@@ -62,7 +63,7 @@ export const WorldBuildingRegister = (props) => {
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
           <Button variant="contained">
-            Create
+            {isEmpty ? "Create" : "Update"}
           </Button>
         </CardActions>
       </Card>
