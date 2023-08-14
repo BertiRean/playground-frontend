@@ -9,7 +9,19 @@ const get = async (userId) => {
   })
 }
 
+const update = async (userId, worldbuildingText) => {
+  const url =`http://127.0.0.1:8000/worldbuilding/${userId}`
+
+  return await axios.put(url, {
+    text : worldbuildingText
+  })
+  .then(response => {
+    return response.data
+  })
+}
+
 export const WorldBuildingRepository =
 {
-  get : get
+  get : get,
+  update : update
 }

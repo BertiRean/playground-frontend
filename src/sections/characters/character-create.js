@@ -10,29 +10,48 @@ import {
   Stack,
   TextField,
   Checkbox,
-  Avatar
+  Avatar,
+  Input
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { FormSchemas } from 'src/utils/form-schemas';
 import { CHAR_TRAITS } from 'src/constants/character-traits';
+import { CharacterRepository } from 'src/lib/character/repositories/character.repositories';
+import { getCookie } from 'cookies-next';
+import { useRouter } from 'next/router';
 
 
 export const CharacterCreate = (props) => {
   
   const {handleSubmit} = props;
 
+  const router = useRouter();
+
   const formik = useFormik({
     initialValues: {
       name: '',
       description: '',
       traits: [],
-      image : '121',
+      image : '',
     },
     validationSchema: FormSchemas.characterSchema.creation,
-    onSubmit : values => {
-      handleSubmit(values)
+    onSubmit : async (values, helpers) => {
+      try {
+        const cookies = getCookie('user');
+        const user = JSON.parse(cookies);
+        await CharacterRepository.create(values, user._id);
+        router.push('/characters/')
+      } catch (err) {
+        helpers.setStatus({ success: false });
+        helpers.setErrors({ submit: err.response.data.detail });
+        helpers.setSubmitting(false);
+      }
     }
   })
+
+  const handleImageChange = (event) => {
+
+  }
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -44,11 +63,21 @@ export const CharacterCreate = (props) => {
         <CardContent>
           <Stack spacing={3}
             direction={'row'}>
-            <Avatar sx={{
+            <Avatar 
+              sx={{
               width: 328,
               height: 328,
-            }}>
+              }}
+            >
             </Avatar>
+            <Input 
+              type='file'
+              hidden
+              style={{display : 'none'}}
+              label='image'
+              onChange={handleImageChange}
+            >
+            </Input>
             <Stack
               spacing={3}
               sx={{ maxWidth: 512 }}

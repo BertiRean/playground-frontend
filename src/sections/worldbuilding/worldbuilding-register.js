@@ -12,7 +12,8 @@ import {
 import { useFormik } from 'formik';
 import { FormSchemas } from 'src/utils/form-schemas';
 import PropTypes from 'prop-types';
-
+import { WorldBuildingRepository } from 'src/lib/worldbuilding/worldbuilding.repositories';
+import { getCookie } from 'cookies-next';
 
 export const WorldBuildingRegister = (props) => {
 
@@ -25,6 +26,18 @@ export const WorldBuildingRegister = (props) => {
     },
 
     validationSchema: FormSchemas.worldBuildingSchema,
+    onSubmit : async (values, helpers) => {
+
+      try {
+        const coookie = getCookie('user');
+        const user = JSON.parse(cookie);
+        await WorldBuildingRepository.update(user._id, values.description);
+      } catch (error) {
+        helpers.setStatus({ success: false });
+        helpers.setErrors({ submit: err.response.data.detail });
+        helpers.setSubmitting(false);
+      }
+    }
   })
 
   const handleSubmit = useCallback(
@@ -35,7 +48,7 @@ export const WorldBuildingRegister = (props) => {
   );
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={formik.onSubmit}>
       <Card>
         <CardHeader
           subheader='Fill this with the world context for the world your characters interact with, the more detailed the better the generated dialogue will be'

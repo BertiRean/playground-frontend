@@ -19,10 +19,28 @@ import { useRouter } from 'next/router';
 import { prefixSearch } from 'src/utils/prefix-search';
 import { useState } from 'react';
 import { CHARACTERS_DEFAULT } from 'src/constants/characters-default';
+import { CharacterRepository } from 'src/lib/character/repositories/character.repositories';
 
-const Page = (props) => {
+export async function getServerSideProps(ctx) {
 
-  const {characters} = props;
+  const user = JSON.parse(ctx.req.cookies['user'])
+  let data = [];
+
+  await CharacterRepository.getChars(user._id)
+  .then(response => { data = response.chars})
+  .catch(error => {console.error(error)})
+
+  return {
+    props: {
+      characters: data
+    }
+  }
+}
+
+const Page = ({characters}) => {
+
+  console.log("Characters: ", characters);
+
   const router = useRouter();
   const [searchText, setSearchText] = useState('');
 
@@ -35,7 +53,7 @@ const Page = (props) => {
   }
 
   const filteredChars = characters.filter((item) => {
-    return prefixSearch(item.title, searchText);
+    return prefixSearch(item.name, searchText);
   })
 
   return (
@@ -117,13 +135,5 @@ Page.getLayout = (page) => (
     {page}
   </DashboardLayout>
 );
-
-export async function getServerSideProps(){
-  return {
-    props : {
-      characters : CHARACTERS_DEFAULT,
-    }
-  }
-}
 
 export default Page;

@@ -11,14 +11,23 @@ const getChar = async (characterId) => {
   })
 }
 
-const create = async (character) => {
-  axios.defaults.baseURL = 'http://127.0.0.1:8000';
-  const url = '/character/5eb7cf5a86d9755df3a6c593'
+const create = async (character, userId) => {
+  const url = 'http://127.0.0.1:8000/character/create'
+  
+  let formData = new FormData();
+  formData.append('name', character.name);
+  formData.append('description', character.description);
+  formData.append('userId', userId);
+  formData.append('traits', character.traits.toString());
+  formData.append('image', character.image);
 
-  await axios.get(url)
-  .then(response => console.log(response))
-  .catch(error => {
-    console.log(error)
+  return await axios.post(url, formData, {
+    headers : {
+      'Content-Type' : 'multipart/form-data'
+    }
+  })
+  .then(response => {
+    return response.data
   })
 }
 
@@ -34,13 +43,25 @@ const update = async (characterId, character) => {
 }
 
 const getUserChars = async(userId) => {
-  const url = `/character/${userId}`
+  const url = `http://127.0.0.1:8000/character/list/${userId}`
 
-  await axios.get(
+  return await axios.get(
     url,
   )
   .then(response => {return response.data})
-  .catch(error => {})
+}
+
+const deleteChar = async(userId, characterId) => {
+  const url = `/character/${characterId}`
+
+  await axios.delete(url, {
+    userId : userId
+  })
+  .then(response => {
+    if (response.status === 200){
+      return response.data
+    }
+  })
 }
 
 export const CharacterRepository =
@@ -48,5 +69,6 @@ export const CharacterRepository =
     getChars : getUserChars,
     getData : getChar,
     create : create,
-    update : update
+    update : update,
+    delete : deleteChar,
 }

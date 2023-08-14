@@ -59,7 +59,7 @@ export const CharacterCard = (props) => {
           >
             <Avatar
               variant="rounded"
-              src={character.logo}
+              src={character.photo}
               sx={{ height: 86, width: 86 }}
               onClick={onCardClick}
             />
@@ -69,7 +69,7 @@ export const CharacterCard = (props) => {
             gutterBottom
             variant="h5"
           >
-            {character.title}
+            {character.name}
           </Typography>
           <Typography
             align="center"
