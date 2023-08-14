@@ -7,11 +7,26 @@ import PencilIcon from '@heroicons/react/24/solid/PencilIcon';
 import { useRouter } from 'next/router';
 import { ConfirmDialog } from 'src/components/confirm-dialog';
 import { useState } from 'react';
+import { getCookie } from 'cookies-next';
+import { CharacterRepository } from 'src/lib/character/repositories/character.repositories';
 
 export const CharacterCard = (props) => {
   const router = useRouter();
-  const {character} = props;
+  const {character, handleCharDeleteAccept} = props;
   const [showDelete, setShowDelete] = useState(false);
+
+  const onAgreeDelete = async () => {
+    const charId = character._id;
+    const cookies = getCookie('user');
+    const user = JSON.parse(cookies);
+
+    try {
+      const response = await handleCharDeleteAccept(user._id, charId);
+      router.push('/characters/')
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const onCardClick = (event) => {
     router.push({
@@ -40,6 +55,7 @@ export const CharacterCard = (props) => {
         agreeTitle='Accept'
         closeTitle='Cancel'
         handleClose={onDeleteClick}
+        handleAgree={onAgreeDelete}
       >
       </ConfirmDialog>
       <Card
@@ -134,4 +150,5 @@ export const CharacterCard = (props) => {
 
 CharacterCard.propTypes = {
   character: PropTypes.object.isRequired,
+  handleCharDeleteAccept : PropTypes.func.isRequired
 };

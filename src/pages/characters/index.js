@@ -39,8 +39,6 @@ export async function getServerSideProps(ctx) {
 
 const Page = ({characters}) => {
 
-  console.log("Characters: ", characters);
-
   const router = useRouter();
   const [searchText, setSearchText] = useState('');
 
@@ -106,9 +104,9 @@ const Page = ({characters}) => {
                   xs={12}
                   md={6}
                   lg={4}
-                  key={character.id}
+                  key={character._id}
                 >
-                  <CharacterCard character={character} />
+                  <CharacterCard character={character} handleCharDeleteAccept={CharacterRepository.delete} />
                 </Grid>
               ))}
             </Grid>

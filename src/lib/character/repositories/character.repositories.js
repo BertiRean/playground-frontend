@@ -52,10 +52,12 @@ const getUserChars = async(userId) => {
 }
 
 const deleteChar = async(userId, characterId) => {
-  const url = `/character/${characterId}`
+  const url = `http://127.0.0.1:8000/character/${characterId}`
 
-  await axios.delete(url, {
-    userId : userId
+  return await axios.delete(url, {
+    data : {
+      userId : userId
+    }
   })
   .then(response => {
     if (response.status === 200){
