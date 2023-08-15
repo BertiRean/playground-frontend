@@ -46,7 +46,9 @@ const Page = ({ worldbuildingText }) =>
             <Typography variant="h4">
               World Building
             </Typography>
-            <WorldBuildingRegister worldbuildingText={worldbuildingText} />
+            <WorldBuildingRegister 
+              handleUpdateWorldBulding={WorldBuildingRepository.update}
+              worldbuildingText={worldbuildingText} />
           </Stack>
         </Container>
       </Box>

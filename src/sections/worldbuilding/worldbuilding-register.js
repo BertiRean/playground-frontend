@@ -14,41 +14,35 @@ import { FormSchemas } from 'src/utils/form-schemas';
 import PropTypes from 'prop-types';
 import { WorldBuildingRepository } from 'src/lib/worldbuilding/worldbuilding.repositories';
 import { getCookie } from 'cookies-next';
+import { useRouter } from 'next/router';
 
 export const WorldBuildingRegister = (props) => {
 
-  const {worldbuildingText} = props;
+  const {worldbuildingText, handleUpdateWorldBulding} = props;
   const isEmpty = worldbuildingText === "";
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
       description: worldbuildingText,
     },
-
     validationSchema: FormSchemas.worldBuildingSchema,
     onSubmit : async (values, helpers) => {
-
       try {
-        const coookie = getCookie('user');
+        const cookie = getCookie('user');
         const user = JSON.parse(cookie);
-        await WorldBuildingRepository.update(user._id, values.description);
+        await handleUpdateWorldBulding(user._id, values.description);
+        router.push('/worldbuilding')
       } catch (error) {
         helpers.setStatus({ success: false });
-        helpers.setErrors({ submit: err.response.data.detail });
+        helpers.setErrors({ submit: error.response.data.detail });
         helpers.setSubmitting(false);
       }
     }
   })
 
-  const handleSubmit = useCallback(
-    (event) => {
-      event.preventDefault();
-    },
-    []
-  );
-
   return (
-    <form onSubmit={formik.onSubmit}>
+    <form onSubmit={formik.handleSubmit}>
       <Card>
         <CardHeader
           subheader='Fill this with the world context for the world your characters interact with, the more detailed the better the generated dialogue will be'
@@ -75,7 +69,7 @@ export const WorldBuildingRegister = (props) => {
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained">
+          <Button variant="contained" type="submit">
             {isEmpty ? "Create" : "Update"}
           </Button>
         </CardActions>
@@ -86,4 +80,5 @@ export const WorldBuildingRegister = (props) => {
 
 WorldBuildingRegister.propTypes = {
   worldbuildingText : PropTypes.string.isRequired,
+  handleUpdateWorldBulding : PropTypes.func
 }
