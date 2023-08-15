@@ -23,42 +23,16 @@ export const CharacterEdit = (props) => {
 
   const formik = useFormik({
     initialValues : {
-      name : character.title,
+      name : character.name,
       description : character.description,
       traits : [],
-      image : character.logo,
+      image : character.image,
     },
-
     validationSchema : FormSchemas.characterSchema.creation,
-
   })
 
-  const [values, setValues] = useState({
-    name: character.title,
-    description: character.description,
-    traits: [],
-    image: character.logo,
-  });
-
-  const handleChange = useCallback(
-    (event) => {
-      setValues((prevState) => ({
-        ...prevState,
-        [event.target.name]: event.target.value
-      }));
-    },
-    []
-  );
-
-  const handleSubmit = useCallback(
-    (event) => {
-      event.preventDefault();
-    },
-    []
-  );
-
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={formik.handleSubmit}>
       <Card>
         <CardHeader
           title="From here you can update the details of your character"
@@ -71,7 +45,7 @@ export const CharacterEdit = (props) => {
               width: 328,
               height: 328,
             }}
-              src={character.logo}
+              src={character.image}
             >
               Character Avatar
             </Avatar>
@@ -142,5 +116,6 @@ export const CharacterEdit = (props) => {
 
 
 CharacterEdit.propTypes = {
-  character: PropTypes.object.isRequired
+  character: PropTypes.object.isRequired,
+  handleUpdateBtn : PropTypes.func
 }

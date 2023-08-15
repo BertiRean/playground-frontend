@@ -75,7 +75,7 @@ export const CharacterCard = (props) => {
           >
             <Avatar
               variant="rounded"
-              src={character.photo}
+              src={character.image}
               sx={{ height: 86, width: 86 }}
               onClick={onCardClick}
             />

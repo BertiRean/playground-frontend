@@ -117,7 +117,7 @@ export const CharacterPrompt = (props) => {
                     width: 328,
                     height: 328,
                   }}
-                  src={character.logo}
+                  src={character.image}
                 >
                   Character Avatar
                 </Avatar>

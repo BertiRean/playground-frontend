@@ -11,7 +11,7 @@ import {
   TextField,
   Checkbox,
   Avatar,
-  Input
+  IconButton
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { FormSchemas } from 'src/utils/form-schemas';
@@ -22,8 +22,8 @@ import { useRouter } from 'next/router';
 
 
 export const CharacterCreate = (props) => {
-  
-  const {handleSubmit} = props;
+
+  const { handleSubmit } = props;
 
   const router = useRouter();
 
@@ -32,10 +32,10 @@ export const CharacterCreate = (props) => {
       name: '',
       description: '',
       traits: [],
-      image : '',
+      image: null,
     },
     validationSchema: FormSchemas.characterSchema.creation,
-    onSubmit : async (values, helpers) => {
+    onSubmit: async (values, helpers) => {
       try {
         const cookies = getCookie('user');
         const user = JSON.parse(cookies);
@@ -49,8 +49,9 @@ export const CharacterCreate = (props) => {
     }
   })
 
-  const handleImageChange = (event) => {
-
+  const handleImgUpload = (event) => {
+    console.log(event.target.files[0])
+    formik.setFieldValue('image', event.target.files[0])
   }
 
   return (
@@ -63,21 +64,17 @@ export const CharacterCreate = (props) => {
         <CardContent>
           <Stack spacing={3}
             direction={'row'}>
-            <Avatar 
-              sx={{
-              width: 328,
-              height: 328,
-              }}
-            >
-            </Avatar>
-            <Input 
-              type='file'
-              hidden
-              style={{display : 'none'}}
-              label='image'
-              onChange={handleImageChange}
-            >
-            </Input>
+            <input accept="image/*" id="upload-avatar-pic" type="file" hidden onChange={handleImgUpload}/>
+            <label htmlFor="upload-avatar-pic">
+              <IconButton component="span">
+                <Avatar 
+                  sx={{
+                    width : 328,
+                    height : 328
+                  }}
+                />
+              </IconButton>
+            </label>
             <Stack
               spacing={3}
               sx={{ maxWidth: 512 }}
@@ -123,7 +120,7 @@ export const CharacterCreate = (props) => {
                     label="Traits"
                     placeholder="" />
                 )}
-                onChange={(event, values) => {formik.setFieldValue('traits', values)}}
+                onChange={(event, values) => { formik.setFieldValue('traits', values) }}
               >
               </Autocomplete>
             </Stack>
