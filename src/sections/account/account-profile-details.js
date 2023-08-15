@@ -42,39 +42,16 @@ export const AccountProfileDetails = (props) => {
       email : user.email,
       photo : user.photo,
     },
+    onSubmit : (values, helpers) => {
+
+    }
   })
-
-  const [values, setValues] = useState({
-    firstName: 'Anika',
-    lastName: 'Visser',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'los-angeles',
-    country: 'USA'
-  });
-
-  const handleChange = useCallback(
-    (event) => {
-      setValues((prevState) => ({
-        ...prevState,
-        [event.target.name]: event.target.value
-      }));
-    },
-    []
-  );
-
-  const handleSubmit = useCallback(
-    (event) => {
-      event.preventDefault();
-    },
-    []
-  );
 
   return (
     <form
       autoComplete="off"
       noValidate
-      onSubmit={handleSubmit}
+      onSubmit={formik.handleSubmit}
     >
       <Card>
         <CardHeader
@@ -110,6 +87,7 @@ export const AccountProfileDetails = (props) => {
                   fullWidth
                   label="Email Address"
                   name="email"
+                  disabled
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   required
