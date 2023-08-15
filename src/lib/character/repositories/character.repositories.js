@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const getChar = async (characterId) => {
-  const url = `/character/${characterId}`
+  const url = process.env.NEXT_PUBLIC_API_URL + `/character/${characterId}`
 
   await axios.get(url).then(response => {
     return response.data
@@ -12,7 +12,7 @@ const getChar = async (characterId) => {
 }
 
 const create = async (character, userId) => {
-  const url = 'http://127.0.0.1:8000/character/create'
+  const url = process.env.NEXT_PUBLIC_API_URL + '/character/create'
   
   let formData = new FormData();
   formData.append('name', character.name);
@@ -43,7 +43,7 @@ const update = async (characterId, character) => {
 }
 
 const getUserChars = async(userId) => {
-  const url = `http://127.0.0.1:8000/character/list/${userId}`
+  const url = process.env.NEXT_PUBLIC_API_URL + `/character/list/${userId}`
 
   return await axios.get(
     url,
@@ -52,7 +52,7 @@ const getUserChars = async(userId) => {
 }
 
 const deleteChar = async(userId, characterId) => {
-  const url = `http://127.0.0.1:8000/character/${characterId}`
+  const url = process.env.NEXT_PUBLIC_API_URL + `/character/${characterId}`
 
   return await axios.delete(url, {
     data : {

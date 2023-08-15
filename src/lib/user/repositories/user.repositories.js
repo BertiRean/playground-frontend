@@ -3,7 +3,8 @@ import { setClientToken } from "src/lib/http/client/axios.client";
 
 
 const login = async (email, password) => {
-  const url = 'http://127.0.0.1:8000/auth/login'
+  const url = process.env.NEXT_PUBLIC_API_URL + "/auth/login"
+  console.log(url);
   const userForm = new FormData();
   userForm.append('username', email)
   userForm.append('password', password)
@@ -26,7 +27,7 @@ const login = async (email, password) => {
 }
 
 const signUp = async(name, email, password) => {
-  const url = "http://127.0.0.1:8000/auth/register"
+  const url = process.env.NEXT_PUBLIC_API_URL + `/auth/register`
   const user = {
     name : name,
     email : email,
