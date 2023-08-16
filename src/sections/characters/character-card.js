@@ -41,8 +41,8 @@ export const CharacterCard = (props) => {
 
   const onEditClick = (event) => {
     router.push({
-      pathname : '/characters/edit',
-      query : character,
+      pathname : `/characters/edit/[id]`,
+      query : { id : character._id},
     })
   }
 

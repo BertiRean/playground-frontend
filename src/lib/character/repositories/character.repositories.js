@@ -3,11 +3,11 @@ import axios from "axios";
 const getChar = async (characterId) => {
   const url = process.env.NEXT_PUBLIC_API_URL + `/character/${characterId}`
 
-  await axios.get(url).then(response => {
-    return response.data
+  return await axios.get(url).then(response => {
+    return response.data.data
   })
   .catch(error => {
-    return {}
+    return null
   })
 }
 
@@ -32,7 +32,7 @@ const create = async (character, userId) => {
 }
 
 const update = async (characterId, character) => {
-  const url = `/character/${characterId}`
+  const url = process.env.NEXT_PUBLIC_API_URL +  `/character/${characterId}`
 
   await axios.put(
     url,

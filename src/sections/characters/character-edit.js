@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { useCallback, useState } from 'react';
 import {
   Autocomplete,
   Button,
@@ -16,19 +15,31 @@ import {
 import { CHAR_TRAITS } from 'src/constants/character-traits';
 import { useFormik } from 'formik';
 import { FormSchemas } from 'src/utils/form-schemas';
+import { useRouter } from 'next/router';
 
 export const CharacterEdit = (props) => {
 
-  const { character } = props;
+  const { character, handleUpdateBtn, handleDeleteBtn } = props;
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues : {
       name : character.name,
       description : character.description,
-      traits : [],
+      traits : character.traits,
       image : character.image,
     },
     validationSchema : FormSchemas.characterSchema.creation,
+    onSubmit : async (values, helpers) => {
+      try {
+        const response = await handleUpdateBtn(character._id, values);
+        router.reload()
+      } catch (err) {
+        helpers.setStatus({ success: false });
+        helpers.setErrors({ submit: err.response.data.detail });
+        helpers.setSubmitting(false);
+      }
+    }
   })
 
   return (
@@ -75,6 +86,8 @@ export const CharacterEdit = (props) => {
                 multiline
               />
               <Autocomplete
+                defaultChecked={formik.values.traits}
+                defaultValue={formik.values.traits}
                 multiple
                 id="checkboxes-tags-demo"
                 options={CHAR_TRAITS}
@@ -94,6 +107,7 @@ export const CharacterEdit = (props) => {
                     label="Traits"
                     placeholder="" />
                 )}
+                onChange={(event, values) => { formik.setFieldValue('traits', values) }}
               >
               </Autocomplete>
             </Stack>
@@ -102,7 +116,7 @@ export const CharacterEdit = (props) => {
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained">
+          <Button variant="contained" type='submit'>
             Update
           </Button>
           <Button variant="contained">
@@ -117,5 +131,6 @@ export const CharacterEdit = (props) => {
 
 CharacterEdit.propTypes = {
   character: PropTypes.object.isRequired,
-  handleUpdateBtn : PropTypes.func
+  handleUpdateBtn : PropTypes.func,
+  handleDeleteBtn : PropTypes.func,
 }

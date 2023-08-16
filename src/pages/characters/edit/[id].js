@@ -7,11 +7,24 @@ import {
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CharacterEdit } from 'src/sections/characters/character-edit';
 import { useRouter } from 'next/router';
+import { CharacterRepository } from 'src/lib/character/repositories/character.repositories';
+import { CHARACTERS_DEFAULT } from 'src/constants/characters-default';
 
-const Page = (props) => 
+export async function getServerSideProps({params}){
+
+  const {id} = params;
+  const char = await CharacterRepository.getData(id);
+  char._id = id;
+  return {
+    props : {
+      character : char
+    }
+  }
+}
+
+const Page = ({character}) => 
 {
   const router =  useRouter();
-  const character = router.query;
 
   return (
     <>
@@ -32,7 +45,9 @@ const Page = (props) =>
           <Typography variant="h4">
             Edit Character
           </Typography>
-          <CharacterEdit character={character} />
+          <CharacterEdit character={character}
+          handleUpdateBtn={CharacterRepository.update}
+          />
         </Stack>
       </Container>
     </Box>
