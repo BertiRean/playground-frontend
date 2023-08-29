@@ -4,7 +4,6 @@ import { setClientToken } from "src/lib/http/client/axios.client";
 
 const login = async (email, password) => {
   const url = process.env.NEXT_PUBLIC_API_URL + "/auth/login"
-  console.log(url);
   const userForm = new FormData();
   userForm.append('username', email)
   userForm.append('password', password)
@@ -20,7 +19,7 @@ const login = async (email, password) => {
   )
   .then(response => {
     if (response.status == 200){
-      setClientToken(response.data.token)
+      setClientToken(response.data.access_token)
       return response.data
     }
   })

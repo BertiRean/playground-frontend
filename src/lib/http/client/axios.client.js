@@ -8,6 +8,6 @@ const axiosInstance = axios.create({
 
 export function setClientToken(token){
   axios.defaults.headers.common = {
-    'Authorization' : `"Bearer ${token}"`
+    'Authorization' : `Bearer ${token}`
   }
 }
