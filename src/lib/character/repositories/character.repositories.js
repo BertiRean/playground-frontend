@@ -66,6 +66,22 @@ const deleteChar = async(userId, characterId) => {
   })
 }
 
+const generateDialogue = async(characterId, aiModel = "openai", number_of_lines = 3) => {
+  const url = process.env.NEXT_PUBLIC_API_URL + '/dialogue/generate'
+
+  return await axios.get(
+    url, 
+    {
+      params : {
+        model : "openai",
+        character_id : characterId,
+        additional_context : "",
+        number_of_lines : number_of_lines,
+      }
+    }
+  )
+}
+
 export const CharacterRepository =
 {
     getChars : getUserChars,
@@ -73,4 +89,5 @@ export const CharacterRepository =
     create : create,
     update : update,
     delete : deleteChar,
+    getDialogue : generateDialogue,
 }

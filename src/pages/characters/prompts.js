@@ -13,13 +13,22 @@ import {
   Unstable_Grid2 as Grid
 } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { CharacterCreate } from 'src/sections/characters/character-create';
 import { CharacterPrompt } from 'src/sections/characters/character-prompt';
-import { useRouter } from 'next/router';
+import { CharacterRepository } from 'src/lib/character/repositories/character.repositories';
 
-const Page = () => {
-  const router = useRouter();
-  const character = router.query;
+export async function getServerSideProps(ctx){
+
+  const {id} = ctx.query
+  const char = await CharacterRepository.getData(id);
+  char._id = id;
+  return {
+    props : {
+      character : char
+    }
+  }
+}
+
+const Page = ({character}) => {
 
   return (
     <>
@@ -40,7 +49,7 @@ const Page = () => {
             <Typography variant="h4">
               Dialogue Creation
             </Typography>
-            <CharacterPrompt character={character} />
+            <CharacterPrompt character={character} handleGenDialogue={CharacterRepository.getDialogue} />
           </Stack>
         </Container>
       </Box>

@@ -31,9 +31,30 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import ReplayIcon from '@mui/icons-material/Replay';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import { useFormik } from 'formik';
 
 export const CharacterPrompt = (props) => {
-  const { character } = props;
+  const { character, handleGenDialogue } = props;
+
+  const [lines, setLines] = useState([]);
+
+  const formik = useFormik({
+    initialValues : {
+      model : 10,
+      voice : 10,
+      dialogues : 2,
+    },
+    onSubmit : async (values, helpers) => {
+      try {
+        const response = await handleGenDialogue(character._id, "openai", values.dialogues);
+        setLines(response.data.lines);
+      } catch (err) {
+        helpers.setStatus({ success: false });
+        helpers.setErrors({ submit: err.response.data.detail });
+        helpers.setSubmitting(false);
+      }
+    }
+  })
 
   const [values, setValues] = useState({
     model: 10,
@@ -67,23 +88,6 @@ export const CharacterPrompt = (props) => {
     }
   ]
 
-  const handleChange = useCallback(
-    (event) => {
-      setValues((prevState) => ({
-        ...prevState,
-        [event.target.name]: event.target.value
-      }));
-    },
-    []
-  );
-
-  const handleSubmit = useCallback(
-    (event) => {
-      event.preventDefault();
-    },
-    []
-  );
-
   const Reply = ({ text, props }) => {
     return (
       <Box>
@@ -100,7 +104,7 @@ export const CharacterPrompt = (props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={formik.handleSubmit}>
       <Card>
         <CardHeader
         />
@@ -131,16 +135,17 @@ export const CharacterPrompt = (props) => {
               xs={6}>
               <Stack direction={'column'}
                 spacing={3}>
-                <Button variant='contained'>Generate Dialogue</Button>
+                <Button variant='contained' type='submit'>Generate Dialogue</Button>
                 <TextField
                   fullWidth
                   label="Select AI Model"
                   name="model"
-                  onChange={handleChange}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   required
                   select
                   SelectProps={{ native: true }}
-                  value={values.model}
+                  value={formik.values.model}
                 >
                   {models.map((option) => (
                     <option
@@ -155,11 +160,11 @@ export const CharacterPrompt = (props) => {
                   fullWidth
                   label="Select Voice Actor"
                   name="voice"
-                  onChange={handleChange}
+                  onChange={formik.handleChange}
                   required
                   select
                   SelectProps={{ native: true }}
-                  value={values.voice}
+                  value={formik.values.voice}
                 >
                   {voices.map((option) => (
                     <option
@@ -172,23 +177,24 @@ export const CharacterPrompt = (props) => {
                 </TextField>
                 <Typography id="input-slider"
                   gutterBottom>
-                  Dialogue Lines: {values.dialogues}
+                  Dialogue Lines: {formik.values.dialogues}
                 </Typography>
                 <Slider
-                  defaultValue={values.dialogues}
-                  value={values.dialogues}
+                  defaultValue={formik.values.dialogues}
+                  value={formik.values.dialogues}
                   max={5}
                   step={1}
                   min={2}
                   valueLabelDisplay='auto'
-                  onChange={handleChange}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   name='dialogues'
                 >
                 </Slider>
                 {
-                  [...Array(values.dialogues).keys()].map((item, idx) => (
-                    <Reply key={item + 1}
-                      text="Kill them by the glory of the queen"></Reply>
+                  lines.map((item, idx) => (
+                    <Reply key={idx + 1}
+                      text={item}></Reply>
                   ))
                 }
               </Stack>
@@ -205,5 +211,6 @@ export const CharacterPrompt = (props) => {
 
 
 CharacterPrompt.propTypes = {
-  character: PropTypes.object.isRequired
+  character: PropTypes.object.isRequired,
+  handleGenDialogue : PropTypes.func,
 };

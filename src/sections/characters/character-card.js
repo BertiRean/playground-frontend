@@ -31,7 +31,7 @@ export const CharacterCard = (props) => {
   const onCardClick = (event) => {
     router.push({
       pathname : '/characters/prompts',
-      query : character,
+      query : {id : character._id},
     })
   }
 
