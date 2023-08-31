@@ -50,7 +50,6 @@ export const CharacterCreate = (props) => {
   })
 
   const handleImgUpload = (event) => {
-    console.log(event.target.files[0])
     formik.setFieldValue('image', event.target.files[0])
   }
 

@@ -19,7 +19,6 @@ import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 import { FormSchemas } from 'src/utils/form-schemas';
 import { UserRepository } from 'src/lib/user/repositories/user.repositories';
-import { useCookies } from 'react-cookie';
 import { setCookie, getCookie } from 'cookies-next';
 const Page = () => {
 
@@ -40,9 +39,8 @@ const Page = () => {
         setCookie('user', data.user, {
           path : '/'
         })
-        setCookie('token', data.token, {
+        setCookie('token', data.access_token, {
           path : '/',
-          httpOnly : true,
         })
         auth.signIn(data.user);
         router.push('/')

@@ -18,7 +18,6 @@ import { CharactersSearch } from 'src/sections/characters/characters-search';
 import { useRouter } from 'next/router';
 import { prefixSearch } from 'src/utils/prefix-search';
 import { useState } from 'react';
-import { CHARACTERS_DEFAULT } from 'src/constants/characters-default';
 import { CharacterRepository } from 'src/lib/character/repositories/character.repositories';
 
 export async function getServerSideProps(ctx) {
