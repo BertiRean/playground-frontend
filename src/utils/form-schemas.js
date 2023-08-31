@@ -59,6 +59,11 @@ export const FormSchemas =
     string()
     .required('The world building description is required')
     .min(2),
+  }),
+
+  promptSchema : Yup.object({
+    model : Yup.string().required("You need select a model"),
+    voice : Yup.string().required("You need select a voice actor")
   })
 };
 

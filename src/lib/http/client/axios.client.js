@@ -4,5 +4,6 @@ axios.defaults.timeout = 30000;
 
 
 export function setClientToken(token){
+  localStorage.setItem('token', token);
   axios.defaults.headers.common.Authorization = `Bearer ${token}`
 }

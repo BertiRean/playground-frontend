@@ -22,23 +22,28 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import ReplayIcon from '@mui/icons-material/Replay';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import { useFormik } from 'formik';
+import { getCookie } from 'cookies-next';
+import { FormSchemas } from 'src/utils/form-schemas';
 
 export const CharacterPrompt = (props) => {
   const { character, handleGenDialogue, voices, handlePlayDialogue } = props;
 
   const [lines, setLines] = useState([]);
 
+
   const formik = useFormik({
     initialValues: {
       model: 10,
-      voice: 10,
+      voice: voices.length > 0 ? voices[0].name : '',
       dialogues: 2,
     },
+    validationSchema : FormSchemas.promptSchema,
     onSubmit: async (values, helpers) => {
       try {
-        const response = await handleGenDialogue(character._id, "openai", values.dialogues);
+        const token = getCookie('token');
+        const response = await handleGenDialogue(token, character._id, "openai", values.dialogues);
         const new_lines = response.data.lines.map((item, idx) => {
-          return { line: item, audio: '' }
+          return { line: item, audio: '', actor : '' }
         });
 
         setLines(new_lines);
@@ -62,28 +67,33 @@ export const CharacterPrompt = (props) => {
     }
   ];
 
-  const saveAudio = (lineIdx, audioUrl) => {
+  const saveAudio = (lineIdx, audioUrl, voiceActor) => {
     const new_lines = Array.from(lines);
     new_lines[lineIdx].audio = audioUrl;
+    new_lines[lineIdx].actor = voiceActor;
     setLines(new_lines);
   }
 
   const Reply = ({ lineIdx, audioUrl = "", text = "", voice_name = "", handlePlayDialogue, saveAudioFn = saveAudio, props }) => {
 
     const audioRef = useRef(null);
+    let showPlayer = audioUrl !== "";
 
     const onPlay = async (event) => {
-      if (audioRef !== null && audioRef.current !== null && audioUrl !== "") {
+      const actor = lines[lineIdx].actor;
+      if (audioRef !== null && audioRef.current !== null && audioUrl !== "" &&
+      actor === voice_name) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
         audioRef.current.play();
       }
       else {
+        showPlayer = false;
         const option = voices.find((itr) => itr.name === voice_name);
         if (option) {
           try {
-            const data = await handlePlayDialogue(option.id, text);
-            saveAudioFn(lineIdx, data.url);
+            const data = await handlePlayDialogue(option.id, text, voice_name);
+            saveAudioFn(lineIdx, data.url, voice_name);
           } catch (error) {
             console.log(error);
           }
@@ -102,6 +112,7 @@ export const CharacterPrompt = (props) => {
           <RecordVoiceOverIcon onClick={onPlay}></RecordVoiceOverIcon>
         </Stack>
         {
+          showPlayer && 
           <audio src={audioUrl} ref={audioRef} controls>
           </audio>
         }
@@ -164,13 +175,15 @@ export const CharacterPrompt = (props) => {
                 </TextField>
                 <TextField
                   fullWidth
+                  helperText={formik.touched.voice && formik.errors.voice}
                   label="Select Voice Actor"
                   name="voice"
+                  onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   required
                   select
                   SelectProps={{ native: true }}
-                  value={formik.values.voice}
+                  defaultValue={formik.values.voice}
                 >
                   {voices.map((option) => (
                     <option
@@ -224,6 +237,6 @@ export const CharacterPrompt = (props) => {
 CharacterPrompt.propTypes = {
   character: PropTypes.object.isRequired,
   handleGenDialogue: PropTypes.func,
-  voices: PropTypes.array,
+  voices: PropTypes.array.isRequired,
   handlePlayDialogue: PropTypes.func,
 };

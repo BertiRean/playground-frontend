@@ -66,7 +66,7 @@ const deleteChar = async(userId, characterId) => {
   })
 }
 
-const generateDialogue = async(characterId, aiModel = "openai", number_of_lines = 3) => {
+const generateDialogue = async(token = "", characterId, aiModel = "openai", number_of_lines = 3) => {
   const url = process.env.NEXT_PUBLIC_API_URL + '/dialogue/generate'
   return await axios.get(
     url, 
@@ -78,7 +78,7 @@ const generateDialogue = async(characterId, aiModel = "openai", number_of_lines 
         number_of_lines : number_of_lines,
       },
       headers : {
-        Authorization : `Bearer ${localStorage.getItem('token')}`
+        Authorization : `Bearer ${token}`
       }
     }
   )
