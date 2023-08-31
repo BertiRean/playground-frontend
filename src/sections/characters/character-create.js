@@ -19,6 +19,7 @@ import { CHAR_TRAITS } from 'src/constants/character-traits';
 import { CharacterRepository } from 'src/lib/character/repositories/character.repositories';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 
 export const CharacterCreate = (props) => {
@@ -26,6 +27,7 @@ export const CharacterCreate = (props) => {
   const { handleSubmit } = props;
 
   const router = useRouter();
+  const [showPic, setShowPic] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -51,8 +53,9 @@ export const CharacterCreate = (props) => {
 
   const handleImgUpload = (event) => {
     formik.setFieldValue('image', event.target.files[0])
+    setShowPic(true);
   }
-
+  
   return (
     <form onSubmit={formik.handleSubmit}>
       <Card>
@@ -71,6 +74,7 @@ export const CharacterCreate = (props) => {
                     width : 328,
                     height : 328
                   }}
+                  src={showPic ? URL.createObjectURL(formik.values.image) : ''}
                 />
               </IconButton>
             </label>
