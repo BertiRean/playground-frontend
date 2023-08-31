@@ -1,9 +1,10 @@
 import axios from "axios";
 import { setClientToken } from "src/lib/http/client/axios.client";
 
+const BASE_URL = "https://docs.playground.com.ar";
 
 const login = async (email, password) => {
-  const url = process.env.NEXT_PUBLIC_API_URL + "/auth/login"
+  const url = BASE_URL + "/auth/login"
   const userForm = new FormData();
   userForm.append('username', email)
   userForm.append('password', password)
@@ -26,7 +27,7 @@ const login = async (email, password) => {
 }
 
 const signUp = async(name, email, password) => {
-  const url = process.env.NEXT_PUBLIC_API_URL + `/auth/register`
+  const url = BASE_URL + `/auth/register`
   const user = {
     name : name,
     email : email,

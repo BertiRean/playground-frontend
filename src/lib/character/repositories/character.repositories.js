@@ -1,7 +1,9 @@
 import axios from "axios"
 
+const BASE_URL = "https://docs.playground.com.ar";
+
 const getChar = async (characterId) => {
-  const url = process.env.NEXT_PUBLIC_API_URL + `/character/${characterId}`
+  const url = BASE_URL + `/character/${characterId}`
 
   return await axios.get(url).then(response => {
     return response.data.data
@@ -12,7 +14,7 @@ const getChar = async (characterId) => {
 }
 
 const create = async (character, userId) => {
-  const url = process.env.NEXT_PUBLIC_API_URL + '/character/create'
+  const url = BASE_URL + '/character/create'
   
   let formData = new FormData();
   formData.append('name', character.name);
@@ -32,7 +34,7 @@ const create = async (character, userId) => {
 }
 
 const update = async (characterId, character) => {
-  const url = process.env.NEXT_PUBLIC_API_URL +  `/character/${characterId}`
+  const url = BASE_URL +  `/character/${characterId}`
 
   await axios.put(
     url,
@@ -43,7 +45,7 @@ const update = async (characterId, character) => {
 }
 
 const getUserChars = async(userId) => {
-  const url = process.env.NEXT_PUBLIC_API_URL + `/character/list/${userId}`
+  const url = BASE_URL + `/character/list/${userId}`
 
   return await axios.get(
     url,
@@ -52,7 +54,7 @@ const getUserChars = async(userId) => {
 }
 
 const deleteChar = async(userId, characterId) => {
-  const url = process.env.NEXT_PUBLIC_API_URL + `/character/${characterId}`
+  const url = BASE_URL + `/character/${characterId}`
 
   return await axios.delete(url, {
     data : {
@@ -67,7 +69,7 @@ const deleteChar = async(userId, characterId) => {
 }
 
 const generateDialogue = async(token = "", characterId, aiModel = "openai", number_of_lines = 3) => {
-  const url = process.env.NEXT_PUBLIC_API_URL + '/dialogue/generate'
+  const url = BASE_URL + '/dialogue/generate'
   return await axios.get(
     url, 
     {
@@ -86,7 +88,7 @@ const generateDialogue = async(token = "", characterId, aiModel = "openai", numb
 
 const getVoices = async(token = "") => {
   
-  const url = process.env.NEXT_PUBLIC_API_URL + "/voice/speakers";
+  const url = BASE_URL + "/voice/speakers";
   return await axios.get(url, {
     headers : {
       'Authorization' : `Bearer ${token}`
@@ -99,7 +101,7 @@ const getVoices = async(token = "") => {
 }
 
 const playAudio = async(voice_id, text) => {
-  const url = process.env.NEXT_PUBLIC_API_URL + '/voice/audio';
+  const url = BASE_URL + '/voice/audio';
 
   return await axios.get(
     url,

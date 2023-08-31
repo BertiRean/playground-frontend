@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const BASE_URL = "https://docs.playground.com.ar";
+
 const get = async (userId) => {
-  const url =  process.env.NEXT_PUBLIC_API_URL + `/worldbuilding/${userId}`
+  const url =  BASE_URL + `/worldbuilding/${userId}`
 
   return await axios.get(url)
   .then(response => {
@@ -10,7 +12,7 @@ const get = async (userId) => {
 }
 
 const update = async (userId, worldbuildingText) => {
-  const url = process.env.NEXT_PUBLIC_API_URL + `/worldbuilding/${userId}`
+  const url = BASE_URL + `/worldbuilding/${userId}`
 
   return await axios.put(url, {
     text : worldbuildingText
