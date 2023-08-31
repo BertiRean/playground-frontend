@@ -34,6 +34,17 @@ import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 
 export const CharacterPromptDefault = (props) => {
 
+  let {defaultChar} = props;
+
+  if (defaultChar === undefined ||
+    defaultChar === null){
+    defaultChar = {
+      image : '',
+      description : 'Your character description',
+      name : 'Your character name'
+    }
+  }
+
   const [values, setValues] = useState({
     model: 10,
     voice: 10,
@@ -110,17 +121,21 @@ export const CharacterPromptDefault = (props) => {
             <Grid item
               xs={6}>
               <Stack direction='column' spacing={3}>
+                <Typography alignSelf={'center'} style={{ fontSize: 30, fontWeight: 600 }}>
+                  {defaultChar.name}
+                </Typography>
                 <Avatar
                   sx={{
                     alignSelf : 'center',
                     width: 328,
                     height: 328,
                   }}
+                  src={defaultChar.image}
                 >
                 </Avatar>
                 <Box sx={{height : '20%'}}></Box>
                 <Typography alignSelf={'center'}>
-                  Your char description
+                  {defaultChar.description}
                 </Typography>
               </Stack>
             </Grid>
@@ -206,3 +221,6 @@ export const CharacterPromptDefault = (props) => {
   );
 };
 
+CharacterPromptDefault.propTypes = {
+  defaultChar : PropTypes.object,
+};

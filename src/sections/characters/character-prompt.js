@@ -13,7 +13,7 @@ import {
   Typography,
   Slider
 } from '@mui/material';
-import { Box } from '@mui/system';
+import { Box, fontWeight } from '@mui/system';
 
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
@@ -132,6 +132,9 @@ export const CharacterPrompt = (props) => {
             <Grid item
               xs={6}>
               <Stack direction='column' spacing={3}>
+                <Typography alignSelf={'center'} style={{fontSize:30, fontWeight:600}}>
+                  {character.name}
+                </Typography>
                 <Avatar
                   sx={{
                     alignSelf: 'center',

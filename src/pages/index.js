@@ -12,12 +12,41 @@ import { OverviewTotalProfit } from 'src/sections/overview/overview-total-profit
 import { OverviewTraffic } from 'src/sections/overview/overview-traffic';
 import { OverviewSteps } from 'src/sections/overview/overview-steps';
 import { useCookies } from 'react-cookie';
+import { CharacterRepository } from 'src/lib/character/repositories/character.repositories';
+import { WorldBuildingRepository } from 'src/lib/worldbuilding/worldbuilding.repositories';
 
 const now = new Date();
 
-const Page = () => {
+export async function getServerSideProps(ctx) {
+  const user = JSON.parse(ctx.req.cookies['user'])
+  let text = null;
+  let character = null;
+
+  try {
+    const worldbuilding = await WorldBuildingRepository.get(user._id)
+    text = worldbuilding
+
+    const response = await CharacterRepository.getChars(user._id);
+    character = response.chars[0];
+
+  } catch (error) {
+    console.log(error);
+  }
+
+  return {
+    props: {
+      worldbuilding: text ? text : "",
+      character : character ? character : null,
+    }
+  }
+}
+
+const Page = ({worldbuilding, character}) => {
   const [cookies, setCookies] = useCookies(['user'])
   const user = cookies['user']
+
+  console.log("Char: ", character);
+  console.log("WorldBuilding", worldbuilding);
 
   return (
     <>
@@ -43,7 +72,7 @@ const Page = () => {
               sm={12}
               lg={12}
             >
-              <OverviewSteps user={user}></OverviewSteps>
+              <OverviewSteps user={user} showWorldBuildingAlert={worldbuilding === ""} character={character}></OverviewSteps>
             </Grid>
           </Grid>
         </Container>
