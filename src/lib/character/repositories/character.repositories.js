@@ -108,7 +108,8 @@ const playAudio = async(voice_id, text) => {
     {
       params : {
         voice_id : voice_id,
-        dialogue : text
+        dialogue : text,
+        voice_speed : 1,
       },
       headers : {
         Authorization : `Bearer ${localStorage.getItem('token')}`
