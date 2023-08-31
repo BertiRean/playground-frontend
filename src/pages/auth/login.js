@@ -28,8 +28,8 @@ const Page = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: 'demo@devias.io',
-      password: 'Password123!',
+      email: 'example@gmail.com',
+      password: 'example',
       submit: null
     },
     validationSchema: FormSchemas.userSchema.login,
@@ -71,7 +71,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Login | Devias Kit
+          Login | Playground
         </title>
       </Head>
       <Box

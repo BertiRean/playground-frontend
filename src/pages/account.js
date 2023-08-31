@@ -15,7 +15,7 @@ const Page = () =>
     <>
       <Head>
         <title>
-          Account | Devias Kit
+          Account | Playground
         </title>
       </Head>
       <Box

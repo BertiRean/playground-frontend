@@ -31,7 +31,7 @@ const Page = ({ worldbuildingText }) =>
     <>
       <Head>
         <title>
-          Settings | Devias Kit
+          Settings | Playground
         </title>
       </Head>
       <Box

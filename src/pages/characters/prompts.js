@@ -46,7 +46,7 @@ const Page = ({character, voices}) => {
     <>
       <Head>
         <title>
-          Settings | Devias Kit
+          Characters | Playground
         </title>
       </Head>
       <Box

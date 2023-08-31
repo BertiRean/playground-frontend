@@ -15,7 +15,7 @@ const Page = (props) => {
     <>
       <Head>
         <title>
-          Settings | Devias Kit
+          Characters | Playground
         </title>
       </Head>
       <Box

@@ -23,7 +23,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Overview | Devias Kit
+          Overview | Playground
         </title>
       </Head>
       <Box

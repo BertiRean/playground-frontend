@@ -36,7 +36,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Register | Devias Kit
+          Register | Playground
         </title>
       </Head>
       <Box
