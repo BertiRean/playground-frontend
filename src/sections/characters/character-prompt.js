@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import {
-  Autocomplete,
   Button,
   Card,
   CardActions,
@@ -10,31 +9,22 @@ import {
   Divider,
   Stack,
   TextField,
-  Checkbox,
   Avatar,
   Typography,
-  Paper,
-  List,
-  ListItemText,
-  ListItem,
-  Select,
-  MenuItem,
-  FormHelperText,
-  InputLabel,
   Slider
 } from '@mui/material';
-import { Box, maxWidth } from '@mui/system';
+import { Box } from '@mui/system';
 
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import ReplayIcon from '@mui/icons-material/Replay';
-import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { useFormik } from 'formik';
 
 export const CharacterPrompt = (props) => {
-  const { character, handleGenDialogue } = props;
+  const { character, handleGenDialogue, voices, handlePlayDialogue} = props;
 
   const [lines, setLines] = useState([]);
 
@@ -47,7 +37,12 @@ export const CharacterPrompt = (props) => {
     onSubmit : async (values, helpers) => {
       try {
         const response = await handleGenDialogue(character._id, "openai", values.dialogues);
-        setLines(response.data.lines);
+        const new_lines = response.data.lines.map((item, idx) => {
+          return {line : item, audio : ''}
+        });
+
+        setLines(new_lines);
+
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.response.data.detail });
@@ -55,12 +50,6 @@ export const CharacterPrompt = (props) => {
       }
     }
   })
-
-  const [values, setValues] = useState({
-    model: 10,
-    voice: 10,
-    dialogues: 2,
-  });
 
   const models = [
     {
@@ -73,22 +62,26 @@ export const CharacterPrompt = (props) => {
     }
   ];
 
-  const voices = [
-    {
-      value: 10,
-      name: 'Jack Sparrow'
-    },
-    {
-      value: 20,
-      name: 'Christian Bale'
-    },
-    {
-      value: 30,
-      name: 'Emily Blunt'
-    }
-  ]
+  const saveAudio = (lineIdx, audioUrl) => {
+    const new_lines = Array.from(lines);
+    new_lines[lineIdx].audio = audioUrl;
+    setLines(new_lines);
+  }
 
-  const Reply = ({ text, props }) => {
+  const Reply = ({ lineIdx, audioUrl="", text = "", voice_name = "", handlePlayDialogue, saveAudioFn = saveAudio, props }) => {
+
+    const onPlay = async (event) => {
+      const option = voices.find((itr) => itr.name === voice_name);
+      if (option){
+        try {
+        const data = await handlePlayDialogue(option.id, text);
+        saveAudioFn(lineIdx, data.url);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+
     return (
       <Box>
         <Stack direction={'row'}
@@ -97,7 +90,9 @@ export const CharacterPrompt = (props) => {
           <ThumbUpIcon></ThumbUpIcon>
           <ThumbDownIcon></ThumbDownIcon>
           <ReplayIcon></ReplayIcon>
-          <RecordVoiceOverIcon></RecordVoiceOverIcon>
+          <PlayArrowIcon onClick={onPlay}></PlayArrowIcon>
+          <audio src={audioUrl} controls>
+          </audio>
         </Stack>
       </Box>
     )
@@ -168,8 +163,8 @@ export const CharacterPrompt = (props) => {
                 >
                   {voices.map((option) => (
                     <option
-                      key={option.value}
-                      value={option.value}
+                      key={option.id}
+                      value={option.name}
                     >
                       {option.name}
                     </option>
@@ -193,8 +188,13 @@ export const CharacterPrompt = (props) => {
                 </Slider>
                 {
                   lines.map((item, idx) => (
-                    <Reply key={idx + 1}
-                      text={item}></Reply>
+                    <Reply
+                      lineIdx={idx}
+                      audioUrl={item.audio}
+                      key={idx + 1}
+                      text={item.line}
+                      voice_name={formik.values.voice}
+                      handlePlayDialogue={handlePlayDialogue}></Reply>
                   ))
                 }
               </Stack>
@@ -213,4 +213,6 @@ export const CharacterPrompt = (props) => {
 CharacterPrompt.propTypes = {
   character: PropTypes.object.isRequired,
   handleGenDialogue : PropTypes.func,
+  voices : PropTypes.array,
+  handlePlayDialogue : PropTypes.func,
 };

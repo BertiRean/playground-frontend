@@ -18,17 +18,29 @@ import { CharacterRepository } from 'src/lib/character/repositories/character.re
 
 export async function getServerSideProps(ctx){
 
+  const token = ctx.req.cookies['token'];
   const {id} = ctx.query
   const char = await CharacterRepository.getData(id);
   char._id = id;
+
+  let voices = [];
+
+  try {
+    const resp = await CharacterRepository.getVoices(token);
+    voices = resp;
+  } catch (error) {
+    
+  }
+
   return {
     props : {
-      character : char
+      character : char,
+      voices : voices
     }
   }
 }
 
-const Page = ({character}) => {
+const Page = ({character, voices}) => {
 
   return (
     <>
@@ -49,7 +61,12 @@ const Page = ({character}) => {
             <Typography variant="h4">
               Dialogue Creation
             </Typography>
-            <CharacterPrompt character={character} handleGenDialogue={CharacterRepository.getDialogue} />
+            <CharacterPrompt 
+              character={character} 
+              handleGenDialogue={CharacterRepository.getDialogue} 
+              voices={voices}
+              handlePlayDialogue={CharacterRepository.playDialogue}
+            />
           </Stack>
         </Container>
       </Box>

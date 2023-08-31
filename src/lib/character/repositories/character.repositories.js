@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios"
 
 const getChar = async (characterId) => {
   const url = process.env.NEXT_PUBLIC_API_URL + `/character/${characterId}`
@@ -68,7 +68,6 @@ const deleteChar = async(userId, characterId) => {
 
 const generateDialogue = async(characterId, aiModel = "openai", number_of_lines = 3) => {
   const url = process.env.NEXT_PUBLIC_API_URL + '/dialogue/generate'
-
   return await axios.get(
     url, 
     {
@@ -77,9 +76,49 @@ const generateDialogue = async(characterId, aiModel = "openai", number_of_lines 
         character_id : characterId,
         additional_context : "",
         number_of_lines : number_of_lines,
+      },
+      headers : {
+        Authorization : `Bearer ${localStorage.getItem('token')}`
       }
     }
   )
+}
+
+const getVoices = async(token = "") => {
+  
+  const url = process.env.NEXT_PUBLIC_API_URL + "/voice/speakers";
+  return await axios.get(url, {
+    headers : {
+      'Authorization' : `Bearer ${token}`
+    }
+  })
+  .then(response => {
+    console.log(response.data.speakers)
+    return response.data.speakers;
+  })
+}
+
+const playAudio = async(voice_id, text) => {
+  const url = process.env.NEXT_PUBLIC_API_URL + '/voice/audio';
+
+  return await axios.get(
+    url,
+    {
+      params : {
+        voice_id : voice_id,
+        dialogue : text
+      },
+      headers : {
+        Authorization : `Bearer ${localStorage.getItem('token')}`
+      }
+    }
+  )
+  .then(response => {
+    return response.data;
+  })
+  .catch(error => {
+    console.log(error);
+  })
 }
 
 export const CharacterRepository =
@@ -90,4 +129,6 @@ export const CharacterRepository =
     update : update,
     delete : deleteChar,
     getDialogue : generateDialogue,
+    getVoices : getVoices,
+    playDialogue : playAudio
 }
