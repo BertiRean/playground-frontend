@@ -18,11 +18,11 @@ import { WorldBuildingRepository } from 'src/lib/worldbuilding/worldbuilding.rep
 const now = new Date();
 
 export async function getServerSideProps(ctx) {
-  const user = JSON.parse(ctx.req.cookies['user'])
   let text = null;
   let character = null;
 
   try {
+    const user = JSON.parse(ctx.req.cookies['user'])
     const worldbuilding = await WorldBuildingRepository.get(user._id)
     text = worldbuilding
 
