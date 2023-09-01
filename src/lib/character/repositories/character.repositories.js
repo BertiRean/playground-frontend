@@ -95,7 +95,6 @@ const getVoices = async(token = "") => {
     }
   })
   .then(response => {
-    console.log(response.data.speakers)
     return response.data.speakers;
   })
 }

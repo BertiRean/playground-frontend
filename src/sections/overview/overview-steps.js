@@ -13,15 +13,21 @@ export const OverviewSteps = (props) => {
   const steps = [
     'Create a World Context',
     'Create a Character',
-    'You\'re ready, now try generate dialogue quotes'
+    'You\'re ready, now try to generate some lines!'
   ]
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+
+  let show_popup = localStorage.getItem('show_popup');
+  if(!show_popup){
+    setIsOpen(true);
+    localStorage.setItem('show_popup', true);
+  }
 
   return (
     <Box sx={{width : '100%'}}>
       <Dialog open={isOpen}>
-        <DialogTitle>Welcome {user.name} to the Symphony of Gaming: Unveiling the Art of Audio Generation for Video Games!
+        <DialogTitle>Welcome {user.name} to Playground, a new tool to accelerate your creativity!
       </DialogTitle>
         <DialogActions>
           <Button autoFocus onClick={() => (setIsOpen(false))}>

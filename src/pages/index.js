@@ -45,9 +45,6 @@ const Page = ({worldbuilding, character}) => {
   const [cookies, setCookies] = useCookies(['user'])
   const user = cookies['user']
 
-  console.log("Char: ", character);
-  console.log("WorldBuilding", worldbuilding);
-
   return (
     <>
       <Head>
