@@ -24,11 +24,14 @@ import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import { useFormik } from 'formik';
 import { getCookie } from 'cookies-next';
 import { FormSchemas } from 'src/utils/form-schemas';
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 export const CharacterPrompt = (props) => {
   const { character, handleGenDialogue, voices, handlePlayDialogue } = props;
 
   const [lines, setLines] = useState([]);
+  const [loadingLines, setLoadingLines] = useState(false);
 
 
   const formik = useFormik({
@@ -36,19 +39,22 @@ export const CharacterPrompt = (props) => {
       model: 10,
       voice: voices.length > 0 ? voices[0].name : '',
       dialogues: 2,
+      char_context : ""
     },
     validationSchema : FormSchemas.promptSchema,
     onSubmit: async (values, helpers) => {
       try {
         const token = getCookie('token');
+        setLoadingLines(true);
         const response = await handleGenDialogue(token, character._id, "openai", values.dialogues);
         const new_lines = response.data.lines.map((item, idx) => {
           return { line: item, audio: '', actor : '' }
         });
-
         setLines(new_lines);
+        setLoadingLines(false);
 
       } catch (err) {
+        setLoadingLines(false);
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.response.data.detail });
         helpers.setSubmitting(false);
@@ -78,6 +84,7 @@ export const CharacterPrompt = (props) => {
 
     const audioRef = useRef(null);
     let showPlayer = audioUrl !== "";
+    const [loadingAudios, setLoadingAudios] = useState(false);
 
     const onPlay = async (event) => {
       const actor = lines[lineIdx].actor;
@@ -92,9 +99,12 @@ export const CharacterPrompt = (props) => {
         const option = voices.find((itr) => itr.name === voice_name);
         if (option) {
           try {
+            setLoadingAudios(true);
             const data = await handlePlayDialogue(option.id, text, voice_name);
             saveAudioFn(lineIdx, data.url, voice_name);
+            setLoadingAudios(false);
           } catch (error) {
+            setLoadingAudios(false);
             console.log(error);
           }
         }
@@ -111,6 +121,10 @@ export const CharacterPrompt = (props) => {
           <ReplayIcon></ReplayIcon>
           <RecordVoiceOverIcon onClick={onPlay}></RecordVoiceOverIcon>
         </Stack>
+        {
+          loadingAudios && 
+          <CircularProgress style={{alignSelf : 'center'}}></CircularProgress>
+        }
         {
           showPlayer && 
           <audio src={audioUrl} ref={audioRef} controls>
@@ -156,6 +170,16 @@ export const CharacterPrompt = (props) => {
               <Stack direction={'column'}
                 spacing={3}>
                 <Button variant='contained' type='submit'>Generate Dialogue</Button>
+                <TextField
+                  label="Additional Context"
+                  name="char_context"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  multiline
+                  value={formik.values.char_context}
+                >
+
+                </TextField>
                 <TextField
                   fullWidth
                   label="Select AI Model"
@@ -214,6 +238,7 @@ export const CharacterPrompt = (props) => {
                 >
                 </Slider>
                 {
+                  !loadingLines && 
                   lines.map((item, idx) => (
                     <Reply
                       lineIdx={idx}
@@ -223,6 +248,12 @@ export const CharacterPrompt = (props) => {
                       voice_name={formik.values.voice}
                       handlePlayDialogue={handlePlayDialogue}></Reply>
                   ))
+                }
+                {
+                  loadingLines && 
+                  <>
+                    <CircularProgress style={{alignSelf : 'center'}}></CircularProgress>
+                  </>
                 }
               </Stack>
             </Grid>
