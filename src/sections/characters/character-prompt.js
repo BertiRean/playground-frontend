@@ -146,7 +146,7 @@ export const CharacterPrompt = (props) => {
             <Grid item
               xs={6}>
               <Stack direction='column' spacing={3}>
-                <Typography alignSelf={'center'} style={{fontSize:30, fontWeight:600}}>
+                <Typography alignSelf={'center'} variant='h4'>
                   {character.name}
                 </Typography>
                 <Avatar
@@ -160,7 +160,7 @@ export const CharacterPrompt = (props) => {
                   Character Avatar
                 </Avatar>
                 <Box></Box>
-                <Typography>
+                <Typography variant='body1'>
                   {character.description}
                 </Typography>
               </Stack>
