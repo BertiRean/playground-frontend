@@ -119,7 +119,7 @@ const playAudio = async(voice_id, text) => {
     return response.data;
   })
   .catch(error => {
-    console.log(error);
+    console.error(error);
   })
 }
 

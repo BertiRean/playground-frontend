@@ -13,7 +13,7 @@ import {
   Typography,
   Slider
 } from '@mui/material';
-import { Box, fontWeight } from '@mui/system';
+import { Box } from '@mui/system';
 
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
@@ -105,7 +105,7 @@ export const CharacterPrompt = (props) => {
             setLoadingAudios(false);
           } catch (error) {
             setLoadingAudios(false);
-            console.log(error);
+            console.warn(error);
           }
         }
       }

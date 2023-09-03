@@ -24,7 +24,7 @@ export const CharacterCard = (props) => {
       const response = await handleCharDeleteAccept(user._id, charId);
       router.push('/characters/')
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

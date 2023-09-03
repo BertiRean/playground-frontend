@@ -30,7 +30,7 @@ export async function getServerSideProps(ctx) {
     character = response.chars[0];
 
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 
   return {
