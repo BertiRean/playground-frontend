@@ -1,7 +1,6 @@
 import axios from "axios";
 import { setClientToken } from "src/lib/http/client/axios.client";
-
-const BASE_URL = "https://docs.playground.com.ar";
+import { BASE_URL } from "src/lib/http/client/axios.client";
 
 const login = async (email, password) => {
   const url = BASE_URL + "/auth/login"

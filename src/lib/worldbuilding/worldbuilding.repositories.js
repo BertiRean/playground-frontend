@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const BASE_URL = "https://docs.playground.com.ar";
+import { BASE_URL } from "../http/client/axios.client";
 
 const get = async (userId) => {
   const url =  BASE_URL + `/worldbuilding/${userId}`

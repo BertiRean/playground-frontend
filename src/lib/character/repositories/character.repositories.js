@@ -1,6 +1,5 @@
 import axios from "axios"
-
-const BASE_URL = "https://docs.playground.com.ar";
+import { BASE_URL } from "src/lib/http/client/axios.client";
 
 const getChar = async (characterId) => {
   const url = BASE_URL + `/character/${characterId}`
@@ -68,15 +67,15 @@ const deleteChar = async(userId, characterId) => {
   })
 }
 
-const generateDialogue = async(token = "", characterId, aiModel = "openai", number_of_lines = 3) => {
+const generateDialogue = async(token = "", characterId, aiModel = "openai", number_of_lines = 3, additional_context="") => {
   const url = BASE_URL + '/dialogue/generate'
   return await axios.get(
     url, 
     {
       params : {
-        model : "openai",
+        model : aiModel,
         character_id : characterId,
-        additional_context : "",
+        additional_context : additional_context,
         number_of_lines : number_of_lines,
       },
       headers : {

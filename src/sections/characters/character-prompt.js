@@ -46,7 +46,8 @@ export const CharacterPrompt = (props) => {
       try {
         const token = getCookie('token');
         setLoadingLines(true);
-        const response = await handleGenDialogue(token, character._id, "openai", values.dialogues);
+        const model = models.find((itr) => {return itr.value == values.model});
+        const response = await handleGenDialogue(token, character._id, model.api_name, values.dialogues, values.char_context);
         const new_lines = response.data.lines.map((item, idx) => {
           return { line: item, audio: '', actor : '' }
         });
@@ -65,11 +66,13 @@ export const CharacterPrompt = (props) => {
   const models = [
     {
       value: 10,
-      name: 'OpenAI'
+      name: 'OpenAI',
+      api_name : 'openai'
     },
     {
       value: 20,
-      name: 'Llama'
+      name: 'Llama',
+      api_name: 'llama'
     }
   ];
 
