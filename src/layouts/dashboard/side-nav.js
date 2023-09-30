@@ -43,17 +43,7 @@ export const SideNav = (props) => {
         }}
       >
         <Box sx={{ p: 3 }}>
-          <Box
-            component={NextLink}
-            href="/"
-            sx={{
-              display: 'inline-flex',
-              height: 32,
-              width: 32
-            }}
-          >
-            <Logo />
-          </Box>
+          
           <Box
             sx={{
               alignItems: 'center',
@@ -66,20 +56,26 @@ export const SideNav = (props) => {
               p: '12px'
             }}
           >
-            <div>
+            <Stack direction='row' spacing={2}>
+              <Box 
+                sx={{
+                  height : 32,
+                  width : 32,
+                  display: 'inline-flex'
+                }}
+              >
+                <Logo></Logo>
+              </Box>
               <Typography
                 color="inherit"
                 variant="subtitle1"
               >
                 Playground
               </Typography>
+            </Stack>
+            <div>
+              
             </div>
-            <SvgIcon
-              fontSize="small"
-              sx={{ color: 'neutral.500' }}
-            >
-              <ChevronUpDownIcon />
-            </SvgIcon>
           </Box>
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />
