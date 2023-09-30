@@ -119,7 +119,7 @@ export const CharacterCard = (props) => {
               display="inline"
               variant="body2"
             >
-              Updated 2hr ago
+              Updated {new Date(character.last_update).toDateString()}
             </Typography>
           </Stack>
           <Stack
