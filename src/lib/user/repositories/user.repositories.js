@@ -42,8 +42,31 @@ const signUp = async(name, email, password) => {
   })
 }
 
+const update = async(user) => {
+  const url = BASE_URL + `/user/update`
+
+  let formData = new FormData();
+  formData.append('userId', user.id);
+  formData.append('name', user.name);
+  formData.append('photo', user.photo);
+
+  return await axios.put(
+    url,
+    formData,
+    {
+      headers : {
+        'Content-Type' : 'multipart/form-data'
+      }
+    }
+  )
+  .then(response => {
+    return response.data
+  })
+}
+
 export const UserRepository =
 {
     login : login,
     signUp : signUp,
+    update : update,
 }

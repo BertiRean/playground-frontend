@@ -38,6 +38,11 @@ export const FormSchemas =
         .max(255)
         .required('Password is required')
     }),
+
+    update : Yup.object({
+      name : Yup.string().required("The user name can\'t be empty")
+      .min(2)
+    })
   },
 
   characterSchema : {
