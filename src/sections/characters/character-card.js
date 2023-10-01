@@ -46,6 +46,8 @@ export const CharacterCard = (props) => {
     })
   }
 
+  const char_date = new Date(character.last_update).toDateString();
+
   return (
     <>
       <ConfirmDialog
@@ -119,7 +121,7 @@ export const CharacterCard = (props) => {
               display="inline"
               variant="body2"
             >
-              Updated {new Date(character.last_update).toDateString()}
+              Updated {char_date}
             </Typography>
           </Stack>
           <Stack
