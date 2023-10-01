@@ -8,9 +8,12 @@ import { useRouter } from 'next/router';
 import { ConfirmDialog } from 'src/components/confirm-dialog';
 import { useState } from 'react';
 import { getCookie } from 'cookies-next';
-import { CharacterRepository } from 'src/lib/character/repositories/character.repositories';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import dayjs from 'dayjs';
 
 export const CharacterCard = (props) => {
+  dayjs.extend(relativeTime);
+
   const router = useRouter();
   const {character, handleCharDeleteAccept} = props;
   const [showDelete, setShowDelete] = useState(false);
@@ -46,7 +49,7 @@ export const CharacterCard = (props) => {
     })
   }
 
-  const char_date = new Date(character.last_update).toDateString();
+  const char_date = dayjs(character.last_update).fromNow(true);
 
   return (
     <>
