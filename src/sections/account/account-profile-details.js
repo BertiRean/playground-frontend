@@ -7,6 +7,7 @@ import {
   CardHeader,
   Divider,
   TextField,
+  Stack,
   Avatar,
   Unstable_Grid2 as Grid
 } from '@mui/material';
@@ -17,25 +18,6 @@ import { FormSchemas } from 'src/utils/form-schemas';
 import { UserRepository } from 'src/lib/user/repositories/user.repositories';
 import { getCookie, setCookie } from 'cookies-next';
 import { useAuth } from 'src/hooks/use-auth';
-
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  },
-  {
-    value: 'los-angeles',
-    label: 'Los Angeles'
-  }
-];
 
 export const AccountProfileDetails = (props) => {
   const { user } = props;
@@ -52,12 +34,10 @@ export const AccountProfileDetails = (props) => {
     validationSchema: FormSchemas.userSchema.update,
     onSubmit: async (values, helpers) => {
       try {
-        const cookies = getCookie('user');
-        const user_cookie = JSON.parse(cookies);
         const user = {
           name : values.name,
           photo : values.image_path,
-          id : user_cookie._id,
+          id : auth.user.id,
         }
         const data = await UserRepository.update(user)
         console.log(data);
@@ -94,54 +74,52 @@ export const AccountProfileDetails = (props) => {
             <Grid
               container
               spacing={3}
-              lg={12}
+              direction={'row'}
               justifyContent={'center'}
-              direction={'column'}
             >
-              <Grid alignSelf={'center'}>
+              <Grid lg={6}>
                 <input
-                  accept='image/*'
-                  id="upload-picture"
-                  type="file"
-                  hidden
-                  onChange={onImgChange}
-                >
-                </input>
-                <label htmlFor='upload-picture'>
-                  <Avatar
-                    src={formik.values.image_url}
-                    sx={{
-                      width: 120,
-                      height: 120,
-                    }}
+                    accept='image/*'
+                    id="upload-picture"
+                    type="file"
+                    hidden
+                    onChange={onImgChange}
                   >
-                  </Avatar>
-                </label>
+                  </input>
+                  <label htmlFor='upload-picture'>
+                    <Avatar
+                      src={formik.values.image_url}
+                      sx={{
+                        width: 200,
+                        height: 200,
+                      }}
+                    >
+                    </Avatar>
+                  </label>
               </Grid>
-              <Grid>
-                <TextField
-                  fullWidth
-                  helperText="Please specify your name"
-                  label="Name"
-                  name="name"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  required
-                  value={formik.values.name}
-                />
-              </Grid>
-              <Grid>
-                <TextField
-                fullWidth
-                label="Email Address"
-                name="email"
-                disabled
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                required
-                value={formik.values.email}
-              />
-              </Grid>
+              <Grid lg={6}>
+                  <TextField
+                    fullWidth
+                    helperText="Please specify your name"
+                    label="Name"
+                    name="name"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    required
+                    value={formik.values.name}
+                  />
+
+                  <TextField
+                    fullWidth
+                    label="Email Address"
+                    name="email"
+                    disabled
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    required
+                    value={formik.values.email}
+                  />
+                </Grid>
             </Grid>
           </Box>
         </CardContent>
