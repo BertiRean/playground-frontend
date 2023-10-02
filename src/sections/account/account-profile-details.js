@@ -9,7 +9,8 @@ import {
   TextField,
   Stack,
   Avatar,
-  Unstable_Grid2 as Grid
+  Unstable_Grid2 as Grid,
+  Typography
 } from '@mui/material';
 
 import PropTypes from 'prop-types';
@@ -64,72 +65,77 @@ export const AccountProfileDetails = (props) => {
       noValidate
       onSubmit={formik.handleSubmit}
     >
-      <Card>
-        <CardHeader
-          subheader="The information can be edited"
-          title="Profile"
-        />
-        <CardContent sx={{ pt: 0 }}>
-          <Box sx={{ m: -1.5 }}>
-            <Grid
-              container
-              spacing={3}
-              direction={'row'}
-              justifyContent={'center'}
-            >
-              <Grid lg={6}>
-                <input
-                    accept='image/*'
-                    id="upload-picture"
-                    type="file"
-                    hidden
-                    onChange={onImgChange}
-                  >
-                  </input>
-                  <label htmlFor='upload-picture'>
-                    <Avatar
-                      src={formik.values.image_url}
-                      sx={{
-                        width: 200,
-                        height: 200,
-                      }}
-                    >
-                    </Avatar>
-                  </label>
-              </Grid>
-              <Grid lg={6}>
-                  <TextField
-                    fullWidth
-                    helperText="Please specify your name"
-                    label="Name"
-                    name="name"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    required
-                    value={formik.values.name}
-                  />
-
-                  <TextField
-                    fullWidth
-                    label="Email Address"
-                    name="email"
-                    disabled
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    required
-                    value={formik.values.email}
-                  />
-                </Grid>
-            </Grid>
-          </Box>
-        </CardContent>
-        <Divider />
-        <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained" type='submit'>
-            Save details
+      <Grid container>
+        <Grid lg={4}>
+          <Card>
+            <CardHeader></CardHeader>
+            <CardContent sx={{
+              display : 'flex',
+              flexDirection : 'column',
+              alignItems : 'center',
+              gap : 2
+            }}>
+              <input
+                accept='image/*'
+                id="upload-picture"
+                type="file"
+                hidden
+                onChange={onImgChange}
+                
+              >
+              </input>
+              <label htmlFor='upload-picture' >
+              <Avatar
+                src={formik.values.image_url}
+                sx={{
+                  width: 200,
+                  height: 200,
+                }}
+              >
+              </Avatar>
+              </label>
+              <Typography variant='h5'>{formik.values.name}</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid lg={8}>
+          <Card>
+          <CardHeader title="Profile Details" subheader='The information can be edited'></CardHeader>
+            <CardContent sx={{
+              display : 'flex',
+              flexDirection : 'column',
+              gap : 2
+            }}>
+                <TextField
+                  fullWidth
+                  helperText="Please specify your name"
+                  label="Name"
+                  name="name"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  required
+                  value={formik.values.name}
+                />
+                <TextField
+                  fullWidth
+                  label="Email Address"
+                  name="email"
+                  disabled
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  required
+                  value={formik.values.email}
+                />
+          </CardContent>
+          <Divider></Divider>
+          <CardActions sx={{justifyContent : 'flex-end'}}>
+          <Button variant='contained' type='submit'>
+            Save Details
           </Button>
-        </CardActions>
-      </Card>
+          </CardActions> 
+          </Card>
+        </Grid>
+      </Grid>
     </form>
   );
 };
