@@ -85,6 +85,7 @@ export const Layout = (props) => {
                 sx={{ color: '#15B79E' }}
                 target="_blank"
               >
+                <Logo></Logo>
                 Playground
               </Box>
             </Typography>
