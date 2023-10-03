@@ -25,15 +25,28 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 export const CharacterPrompt = (props) => {
-  const { character, handleGenDialogue, voices, handleGenVoiceForLine } = props;
+  const { character, handleGenDialogue, voices, handleGenVoiceForLine, handleRefinateLine} = props;
 
   const [lines, setLines] = useState([]);
   const [loadingLines, setLoadingLines] = useState(false);
 
+  const models = [
+    {
+      value: 10,
+      name: 'OpenAI',
+      api_name : 'openai'
+    },
+    {
+      value: 20,
+      name: 'Llama',
+      api_name: 'llama'
+    }
+  ];
 
   const formik = useFormik({
     initialValues: {
-      model: 10,
+      model_idx: 10,
+      model : "",
       voice: voices.length > 0 ? voices[0].name : '',
       dialogues: 2,
       char_context : ""
@@ -43,7 +56,7 @@ export const CharacterPrompt = (props) => {
       try {
         const token = getCookie('token');
         setLoadingLines(true);
-        const model = models.find((itr) => {return itr.value == values.model});
+        const model = values.model;
         const response = await handleGenDialogue(token, character._id, model.api_name, values.dialogues, values.char_context);
         const new_lines = response.data.lines.map((item, idx) => {
           return { line: item, audio: '', actor : '' }
@@ -60,18 +73,25 @@ export const CharacterPrompt = (props) => {
     }
   })
 
-  const models = [
-    {
-      value: 10,
-      name: 'OpenAI',
-      api_name : 'openai'
-    },
-    {
-      value: 20,
-      name: 'Llama',
-      api_name: 'llama'
+  const onModelChange = (e) => {
+    const model = models.find((itr) => {return itr.value == e.target.value});
+
+    if (model){
+      formik.setFieldValue('model_idx', model.value);
+      formik.setFieldValue('model', model.api_name)
     }
-  ];
+  }
+
+  const updateLine = (lineIdx, newLine) => {
+    const new_lines = Array.from(lines);
+    new_lines[lineIdx] = {
+      line : newLine,
+      audio : '',
+      actor : ''
+    }
+    console.log("Lines: ", new_lines);
+    setLines(new_lines);
+  }
 
   const saveAudio = (lineIdx, audioUrl, voiceActor) => {
     const new_lines = Array.from(lines);
@@ -115,9 +135,8 @@ export const CharacterPrompt = (props) => {
               xs={6}>
               <Stack direction={'column'}
                 spacing={3}>
-                <Button variant='contained' type='submit'>Generate Dialogue</Button>
                 <TextField
-                  label="Additional Context"
+                  label='Situation of your character at the moment of speaking'
                   name="char_context"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -130,12 +149,12 @@ export const CharacterPrompt = (props) => {
                   fullWidth
                   label="Select AI Model"
                   name="model"
-                  onChange={formik.handleChange}
+                  onChange={onModelChange}
                   onBlur={formik.handleBlur}
                   required
                   select
                   SelectProps={{ native: true }}
-                  value={formik.values.model}
+                  value={formik.values.model_idx}
                 >
                   {models.map((option) => (
                     <option
@@ -183,6 +202,7 @@ export const CharacterPrompt = (props) => {
                   name='dialogues'
                 >
                 </Slider>
+                <Button variant='contained' type='submit'>Generate Dialogue</Button>
                 {
                   !loadingLines && 
                   lines.map((item, idx) => (
@@ -191,6 +211,19 @@ export const CharacterPrompt = (props) => {
                       lineIdx={idx}
                       key={uuidv4()}
                       handleOnSaveAudio={saveAudio}
+                      onPositiveReviewClick={async (e) => {
+                        // TODO: Fix the Prompts results in backend
+                        // try {
+                        //   const data = await handleRefinateLine(formik.values.model, item.line, true)
+                        //   const line_idx = lines.findIndex(itr => itr.line === item.line);
+                        //   updateLine(line_idx, data.response);
+                        // } catch (error) {
+                          
+                        // }
+                      }}
+                      onNegativeReviewClick={(e) => {
+                        handleRefinateLine(formik.values.model, item.line, false)
+                      }}
                       text={item.line}
                       audioUrl={item.audio}
                       actorForLine={item.actor}
@@ -222,4 +255,5 @@ CharacterPrompt.propTypes = {
   handleGenDialogue: PropTypes.func,
   voices: PropTypes.array.isRequired,
   handleGenVoiceForLine: PropTypes.func,
+  handleRefinateLine : PropTypes.func,
 };

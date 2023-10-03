@@ -58,6 +58,7 @@ const Page = ({character, voices}) => {
               handleGenDialogue={CharacterRepository.getDialogue} 
               voices={voices}
               handleGenVoiceForLine={CharacterRepository.genVoiceForLine}
+              handleRefinateLine={CharacterRepository.refinateLine}
             />
           </Stack>
         </Container>

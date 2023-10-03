@@ -3,13 +3,15 @@ import { Box } from '@mui/system';
 import { Typography, Stack, CircularProgress } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import ReplayIcon from '@mui/icons-material/Replay';
-import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import PropTypes from 'prop-types';
 
 export const PromptReply = ({ lineIdx, audioUrl = "", text = "", voiceSelected = "", 
 handleGenVoiceForLine = async () => {}, handleOnSaveAudio = () => {},
-voices = [], actorForLine = "", props }) => {
+voices = [], actorForLine = "",
+onPositiveReviewClick = () => {},
+onNegativeReviewClick = () => {},
+props }) => {
 
   const audioRef = useRef(null);
   const [showPlayer, setShowPlayer] = useState(audioUrl !== "");
@@ -44,10 +46,9 @@ voices = [], actorForLine = "", props }) => {
       <Stack direction={'row'}
         spacing={3}>
         <Typography>{text}</Typography>
-        <ThumbUpIcon></ThumbUpIcon>
-        <ThumbDownIcon></ThumbDownIcon>
-        <ReplayIcon></ReplayIcon>
-        <RecordVoiceOverIcon onClick={onPlay}></RecordVoiceOverIcon>
+        <ThumbUpIcon onClick={onPositiveReviewClick}></ThumbUpIcon>
+        <ThumbDownIcon onClick={onNegativeReviewClick}></ThumbDownIcon>
+        <VolumeUpIcon onClick={onPlay}></VolumeUpIcon>
       </Stack>
       {
         loadingAudios && 
@@ -68,6 +69,8 @@ PropTypes.PropTypes = {
   voiceSelected : PropTypes.string,
   handleGenVoiceForLine : PropTypes.func,
   handleOnSaveAudio : PropTypes.func,
+  onPositiveReviewClick : PropTypes.func,
+  onNegativeReviewClick : PropTypes.func,
   voices : PropTypes.array,
   actorForLine : PropTypes.string
 }

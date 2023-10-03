@@ -85,25 +85,25 @@ const generateDialogue = async(token = "", characterId, aiModel = "openai", numb
   )
 }
 
-const refinateLine = async(toke="", model="", line="", liked=false) => {
+const refinateLine = async(model="", line="", liked=false) => {
 
   const url = BASE_URL + "/dialogue/finetuning";
 
-  return await axios.post(
-    url,
-    {
-      model : model,
-      line : line,
-      liked : liked
+  return await axios.post(url, null, {
+    params : {
+      model,
+      line,
+      liked
     },
-    {
-      headers : {
-        "Authorization" : `Bearer ${token}` 
-      }
+    headers : {
+      'Authorization' : `Bearer ${localStorage.getItem('token')}`
     }
-  )
+  })
   .then(response => {
     return response.data;
+  })
+  .catch(error => {
+    console.error(error);
   })
 }
 
