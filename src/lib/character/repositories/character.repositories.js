@@ -85,6 +85,28 @@ const generateDialogue = async(token = "", characterId, aiModel = "openai", numb
   )
 }
 
+const refinateLine = async(toke="", model="", line="", liked=false) => {
+
+  const url = BASE_URL + "/dialogue/finetuning";
+
+  return await axios.post(
+    url,
+    {
+      model : model,
+      line : line,
+      liked : liked
+    },
+    {
+      headers : {
+        "Authorization" : `Bearer ${token}` 
+      }
+    }
+  )
+  .then(response => {
+    return response.data;
+  })
+}
+
 const getVoices = async(token = "") => {
   
   const url = BASE_URL + "/voice/speakers";
@@ -98,7 +120,7 @@ const getVoices = async(token = "") => {
   })
 }
 
-const playAudio = async(voice_id, text) => {
+const genVoiceForLine = async(voice_id, text) => {
   const url = BASE_URL + '/voice/audio';
 
   return await axios.get(
@@ -131,5 +153,6 @@ export const CharacterRepository =
     delete : deleteChar,
     getDialogue : generateDialogue,
     getVoices : getVoices,
-    playDialogue : playAudio
+    genVoiceForLine : genVoiceForLine,
+    refinateLine : refinateLine
 }

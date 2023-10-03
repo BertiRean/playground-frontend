@@ -1,17 +1,9 @@
 import Head from 'next/head';
-import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
-import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
-import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import {
   Box,
-  Button,
   Container,
-  Pagination,
   Stack,
-  SvgIcon,
-  Typography,
-  Unstable_Grid2 as Grid
-} from '@mui/material';
+  Typography} from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CharacterPrompt } from 'src/sections/characters/character-prompt';
 import { CharacterRepository } from 'src/lib/character/repositories/character.repositories';
@@ -65,7 +57,7 @@ const Page = ({character, voices}) => {
               character={character} 
               handleGenDialogue={CharacterRepository.getDialogue} 
               voices={voices}
-              handlePlayDialogue={CharacterRepository.playDialogue}
+              handleGenVoiceForLine={CharacterRepository.genVoiceForLine}
             />
           </Stack>
         </Container>

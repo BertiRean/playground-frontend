@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Card,
@@ -16,19 +16,16 @@ import {
 import { Box } from '@mui/system';
 
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import ReplayIcon from '@mui/icons-material/Replay';
-import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import PromptReply from 'src/components/prompt-reply';
 import { useFormik } from 'formik';
 import { getCookie } from 'cookies-next';
 import { FormSchemas } from 'src/utils/form-schemas';
 import CircularProgress from '@mui/material/CircularProgress';
+import { v4 as uuidv4 } from 'uuid';
 
 
 export const CharacterPrompt = (props) => {
-  const { character, handleGenDialogue, voices, handlePlayDialogue } = props;
+  const { character, handleGenDialogue, voices, handleGenVoiceForLine } = props;
 
   const [lines, setLines] = useState([]);
   const [loadingLines, setLoadingLines] = useState(false);
@@ -82,60 +79,6 @@ export const CharacterPrompt = (props) => {
     new_lines[lineIdx].actor = voiceActor;
     setLines(new_lines);
   }
-
-  const Reply = ({ lineIdx, audioUrl = "", text = "", voice_name = "", handlePlayDialogue, saveAudioFn = saveAudio, props }) => {
-
-    const audioRef = useRef(null);
-    let showPlayer = audioUrl !== "";
-    const [loadingAudios, setLoadingAudios] = useState(false);
-
-    const onPlay = async (event) => {
-      const actor = lines[lineIdx].actor;
-      if (audioRef !== null && audioRef.current !== null && audioUrl !== "" &&
-      actor === voice_name) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-        audioRef.current.play();
-      }
-      else {
-        showPlayer = false;
-        const option = voices.find((itr) => itr.name === voice_name);
-        if (option) {
-          try {
-            setLoadingAudios(true);
-            const data = await handlePlayDialogue(option.id, text, voice_name);
-            saveAudioFn(lineIdx, data.url, voice_name);
-            setLoadingAudios(false);
-          } catch (error) {
-            setLoadingAudios(false);
-            console.warn(error);
-          }
-        }
-      }
-    }
-
-    return (
-      <Box>
-        <Stack direction={'row'}
-          spacing={3}>
-          <Typography>{text}</Typography>
-          <ThumbUpIcon></ThumbUpIcon>
-          <ThumbDownIcon></ThumbDownIcon>
-          <ReplayIcon></ReplayIcon>
-          <RecordVoiceOverIcon onClick={onPlay}></RecordVoiceOverIcon>
-        </Stack>
-        {
-          loadingAudios && 
-          <CircularProgress style={{alignSelf : 'center'}}></CircularProgress>
-        }
-        {
-          showPlayer && 
-          <audio src={audioUrl} ref={audioRef} controls>
-          </audio>
-        }
-      </Box>
-    )
-  };
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -243,13 +186,16 @@ export const CharacterPrompt = (props) => {
                 {
                   !loadingLines && 
                   lines.map((item, idx) => (
-                    <Reply
+                    <PromptReply
+                      voices={voices}
                       lineIdx={idx}
-                      audioUrl={item.audio}
-                      key={idx + 1}
+                      key={uuidv4()}
+                      handleOnSaveAudio={saveAudio}
                       text={item.line}
-                      voice_name={formik.values.voice}
-                      handlePlayDialogue={handlePlayDialogue}></Reply>
+                      audioUrl={item.audio}
+                      actorForLine={item.actor}
+                      voiceSelected={formik.values.voice}
+                      handleGenVoiceForLine={handleGenVoiceForLine}></PromptReply>
                   ))
                 }
                 {
@@ -275,5 +221,5 @@ CharacterPrompt.propTypes = {
   character: PropTypes.object.isRequired,
   handleGenDialogue: PropTypes.func,
   voices: PropTypes.array.isRequired,
-  handlePlayDialogue: PropTypes.func,
+  handleGenVoiceForLine: PropTypes.func,
 };
