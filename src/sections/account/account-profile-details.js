@@ -41,7 +41,6 @@ export const AccountProfileDetails = (props) => {
           id : auth.user.id,
         }
         const data = await UserRepository.update(user)
-        console.log(data);
         setCookie('user', data.user, {
           path : '/'
         })

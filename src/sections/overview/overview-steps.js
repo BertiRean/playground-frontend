@@ -1,7 +1,6 @@
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Step, StepLabel, Stepper, Typography } from '@mui/material';
+import { Alert, Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { Box } from '@mui/system';
 import PropTypes from 'prop-types';
-import { CharacterPrompt } from '../characters/character-prompt';
 import { CharacterPromptDefault } from '../characters/character-default';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -10,11 +9,6 @@ import Link from 'next/link';
 export const OverviewSteps = (props) => {
 
   const {user, showWorldBuildingAlert, character} = props;
-  const steps = [
-    'Create a World Context',
-    'Create a Character',
-    'You\'re ready, now try to generate some lines!'
-  ]
 
   const [isOpen, setIsOpen] = useState(false);
 
