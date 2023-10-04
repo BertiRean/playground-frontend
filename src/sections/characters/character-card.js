@@ -24,7 +24,7 @@ export const CharacterCard = (props) => {
     const user = JSON.parse(cookies);
 
     try {
-      const response = await handleCharDeleteAccept(user._id, charId);
+      await handleCharDeleteAccept(user._id, charId);
       router.push('/characters/')
     } catch (error) {
       console.error(error);
@@ -50,6 +50,10 @@ export const CharacterCard = (props) => {
   }
 
   const char_date = dayjs(character.last_update).fromNow(true);
+  let limited_description = character.description.substring(0, 300);
+
+  if (character.description.length > 300)
+    limited_description += "..."
 
   return (
     <>
@@ -96,7 +100,7 @@ export const CharacterCard = (props) => {
             align="center"
             variant="body1"
           >
-            {character.description}
+            {limited_description}
           </Typography>
         </CardContent>
         <Box sx={{ flexGrow: 1 }} />
