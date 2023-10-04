@@ -26,8 +26,8 @@ export async function getServerSideProps(ctx) {
 
   return {
     props: {
-      worldbuilding: text ? text : "",
-      character : character ? character : null,
+      worldbuilding: text || "",
+      character : character || null,
     }
   }
 }
