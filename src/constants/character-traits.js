@@ -4,7 +4,13 @@
 export const CHAR_TRAITS = [
   'Brave',
   'Intelligent',
-  'Agile',
+  'Hero',
+  'Evil',
+  'Creepy',
+  'Charming',
+  'Cool',
+  'Cold',
+  'Blunt',
   'Thinker',
   'Protector'
 ]
