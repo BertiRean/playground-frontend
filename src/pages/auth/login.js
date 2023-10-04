@@ -4,10 +4,8 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import {
-  Alert,
   Box,
   Button,
-  FormHelperText,
   Link,
   Stack,
   Tab,
@@ -37,7 +35,7 @@ const Page = () => {
       try {
         const data = await UserRepository.login(values.email, values.password);
         setCookie('user', data.user, {
-          path : '/'
+          path : '/',
         })
         setCookie('token', data.access_token, {
           path : '/',
@@ -59,13 +57,6 @@ const Page = () => {
     []
   );
 
-  const handleSkip = useCallback(
-    () => {
-      auth.skip();
-      router.push('/');
-    },
-    [auth, router]
-  );
 
   return (
     <>
