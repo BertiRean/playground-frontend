@@ -24,7 +24,14 @@ export const TopNav = (props) => {
   const accountPopover = usePopover();
 
   const cookies = getCookie('user');
+
+  if (!cookies){
+    return (<></>)
+  }
+
   const user = JSON.parse(cookies);
+
+
   return (
     <>
       <Box
