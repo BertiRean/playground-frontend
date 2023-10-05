@@ -45,14 +45,15 @@ export const CharacterPrompt = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      model_idx: 10,
-      model : "",
+      model_idx: models[0].value,
+      model : models[0].api_name,
       voice: voices.length > 0 ? voices[0].name : '',
       dialogues: 2,
       char_context : ""
     },
     validationSchema : FormSchemas.promptSchema,
     onSubmit: async (values, helpers) => {
+      console.log(values);
       try {
         const token = getCookie('token');
         setLoadingLines(true);
