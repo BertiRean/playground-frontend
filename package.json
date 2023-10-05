@@ -39,6 +39,7 @@
     "react-dom": "18.2.0",
     "react-window-infinite-loader": "^1.0.9",
     "simplebar-react": "^3.2.1",
+    "uuid": "^9.0.1",
     "yup": "1.0.0"
   },
   "devDependencies": {
