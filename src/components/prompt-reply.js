@@ -16,6 +16,8 @@ props }) => {
   const audioRef = useRef(null);
   const [showPlayer, setShowPlayer] = useState(audioUrl !== "");
   const [loadingAudios, setLoadingAudios] = useState(false);
+  const [yesPressed, setYesPressed] = useState(false);
+  const [noPressed, setNoPressed] = useState(false);
 
   const onPlay = async (event) => {
     if (audioRef !== null && audioRef.current !== null && audioUrl !== "" &&
@@ -41,13 +43,29 @@ props }) => {
     }
   }
 
+  const onYesPressed = (event) => {
+    if (noPressed)
+      return
+
+    onPositiveReviewClick()
+    setYesPressed(true)
+  }
+
+  const onNoPressed = (event) => {
+    if (yesPressed)
+      return
+
+    onNegativeReviewClick()
+    setNoPressed(true)
+  }
+
   return (
     <Box>
       <Stack direction={'row'}
         spacing={3}>
         <Typography>{text}</Typography>
-        <ThumbUpIcon onClick={onPositiveReviewClick}></ThumbUpIcon>
-        <ThumbDownIcon onClick={onNegativeReviewClick}></ThumbDownIcon>
+        <ThumbUpIcon color={yesPressed ? 'success' : 'inherit'} onClick={onYesPressed}></ThumbUpIcon>
+        <ThumbDownIcon color={noPressed ? 'error' : 'inherit'} onClick={onNoPressed}></ThumbDownIcon>
         <VolumeUpIcon onClick={onPlay}></VolumeUpIcon>
       </Stack>
       {
