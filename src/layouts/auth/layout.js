@@ -79,16 +79,23 @@ export const Layout = (props) => {
               }}
               variant="h1"
             >
-              Welcome to{' '}
               <Box
-                component="a"
+                component="a" 
                 sx={{ color: '#15B79E' }}
                 target="_blank"
               >
                 <Logo></Logo>
+              </Box>
+              Welcome to{' '} 
+              <Box
+                component="a" 
+                sx={{ color: '#15B79E' }}
+                target="_blank"
+              >
                 Playground
               </Box>
             </Typography>
+            Your generative AI tool for game development
           </Box>
         </Grid>
       </Grid>
