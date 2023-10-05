@@ -49,7 +49,7 @@ export const CharacterCard = (props) => {
     })
   }
 
-  const char_date = dayjs(character.last_update).fromNow(true);
+  const char_date = dayjs(character.last_update).fromNow(false);
   let limited_description = character.description.substring(0, 300);
 
   if (character.description.length > 300)
