@@ -1,14 +1,15 @@
 import { Alert, Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { Box } from '@mui/system';
 import PropTypes from 'prop-types';
-import { CharacterPromptDefault } from '../characters/character-default';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { CharacterPrompt } from '../characters/character-prompt';
+import { CharacterRepository } from 'src/lib/character/repositories/character.repositories';
 
 
 export const OverviewSteps = (props) => {
 
-  const {user, showWorldBuildingAlert, character} = props;
+  const {user, showWorldBuildingAlert, character, voices} = props;
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -41,7 +42,15 @@ export const OverviewSteps = (props) => {
         you can do it {<Link href='/characters/create'>here</Link>}
         </Alert>
       }
-      <CharacterPromptDefault defaultChar={character}></CharacterPromptDefault>
+      <CharacterPrompt
+        character={character}
+        voices={voices}
+        handleGenDialogue={CharacterRepository.getDialogue} 
+        handleGenVoiceForLine={CharacterRepository.genVoiceForLine}
+        handleRefinateLine={CharacterRepository.refinateLine}
+      >
+
+      </CharacterPrompt>
     </Box>
   )
 }
@@ -50,4 +59,5 @@ OverviewSteps.propTypes = {
   user: PropTypes.object,
   showWorldBuildingAlert : PropTypes.bool.isRequired,
   character : PropTypes.object,
+  voices : PropTypes.array,
 };

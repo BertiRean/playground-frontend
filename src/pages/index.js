@@ -11,14 +11,19 @@ const now = new Date();
 export async function getServerSideProps(ctx) {
   let text = null;
   let character = null;
+  let voices = [];
 
   try {
     const user = JSON.parse(ctx.req.cookies['user'])
+    const token = ctx.req.cookies['token'];
     const worldbuilding = await WorldBuildingRepository.get(user._id)
     text = worldbuilding
 
     const response = await CharacterRepository.getChars(user._id);
     character = response.chars[0];
+
+    const resp = await CharacterRepository.getVoices(token);
+    voices = resp;
 
   } catch (error) {
     console.error(error);
@@ -28,11 +33,12 @@ export async function getServerSideProps(ctx) {
     props: {
       worldbuilding: text || "",
       character : character || null,
+      voices : voices
     }
   }
 }
 
-const Page = ({worldbuilding, character}) => {
+const Page = ({worldbuilding, character, voices}) => {
   const cookie = getCookie('user');
   const user = JSON.parse(cookie);
 
@@ -60,7 +66,11 @@ const Page = ({worldbuilding, character}) => {
               sm={12}
               lg={12}
             >
-              <OverviewSteps user={user} showWorldBuildingAlert={worldbuilding === ""} character={character}></OverviewSteps>
+              <OverviewSteps 
+              user={user} showWorldBuildingAlert={worldbuilding === ""} 
+              character={character}
+              voices={voices}
+              ></OverviewSteps>
             </Grid>
           </Grid>
         </Container>
