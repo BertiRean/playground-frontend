@@ -1,6 +1,7 @@
 import {Alert, Slide } from "@mui/material"
 
 export const TimerAlert = ({
+  severity = "success",
   show = false,
   text = "",
   fadingTime = 5000,
@@ -13,7 +14,7 @@ export const TimerAlert = ({
     <Slide direction='down' in={show} onTransitionEnd={(e) => {
       setTimeout(() => { onTransitionEnd(e)}, fadingTime)
     }}>
-      <Alert onClose={(e) => onAlertClose(e)}>{text}</Alert>
+      <Alert severity={severity} onClose={(e) => onAlertClose(e)}>{text}</Alert>
     </Slide>
   )
 }
