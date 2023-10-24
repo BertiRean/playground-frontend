@@ -33,13 +33,13 @@ export const OverviewSteps = (props) => {
       {
         showWorldBuildingAlert && 
         <Alert severity='warning'>You will need to set the worldbuilding in order to use the dialogue generator, you can do it {
-          <Link href='/worldbuilding'>here</Link>.
+          <Link href='/worldbuilding'>here</Link>
         }</Alert>
       }
       {
         character === null &&
         <Alert severity='warning'>You need to have at least one character created to use the dialogue generator,
-        you can do it {<Link href='/characters/create'>here</Link>}.
+        you can do it {<Link href='/characters/create'>here</Link>}
         </Alert>
       }
       <CharacterPrompt
