@@ -35,7 +35,7 @@ const create = async (character, userId) => {
 const update = async (characterId, character) => {
   const url = BASE_URL +  `/character/${characterId}`
 
-  await axios.put(
+  return await axios.put(
     url,
     character
   )
@@ -144,6 +144,17 @@ const genVoiceForLine = async(voice_id, text) => {
   })
 }
 
+const markFavoriteLine = async(characterId, favorite = true, line = "") => {
+  const url = BASE_URL + `/character/${characterId}/favorite`
+
+  return await axios.put(url, {line : line , favorite : favorite})
+  .then(response => {
+    if (response.status === 200){
+      return response.data
+    }
+  })
+}
+
 export const CharacterRepository =
 {
     getChars : getUserChars,
@@ -154,5 +165,6 @@ export const CharacterRepository =
     getDialogue : generateDialogue,
     getVoices : getVoices,
     genVoiceForLine : genVoiceForLine,
-    refinateLine : refinateLine
+    refinateLine : refinateLine,
+    markFavoriteLine : markFavoriteLine,
 }

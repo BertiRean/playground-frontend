@@ -25,7 +25,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 export const CharacterPrompt = (props) => {
-  const { character, handleGenDialogue, voices, handleGenVoiceForLine, handleRefinateLine} = props;
+  const { character, handleGenDialogue, voices, handleGenVoiceForLine, handleRefinateLine, handleFavoriteLine} = props;
 
   const [lines, setLines] = useState([]);
   const [loadingLines, setLoadingLines] = useState(false);
@@ -81,17 +81,6 @@ export const CharacterPrompt = (props) => {
       formik.setFieldValue('model_idx', model.value);
       formik.setFieldValue('model', model.api_name)
     }
-  }
-
-  const updateLine = (lineIdx, newLine) => {
-    const new_lines = Array.from(lines);
-    new_lines[lineIdx] = {
-      line : newLine,
-      audio : '',
-      actor : ''
-    }
-    console.log("Lines: ", new_lines);
-    setLines(new_lines);
   }
 
   const saveAudio = (lineIdx, audioUrl, voiceActor) => {
@@ -212,6 +201,13 @@ export const CharacterPrompt = (props) => {
                       lineIdx={idx}
                       key={uuidv4()}
                       handleOnSaveAudio={saveAudio}
+                      onFavoriteLineClick={async (isFavorite) => {
+                        try {
+                          const response = await handleFavoriteLine(character._id, isFavorite, item.line);
+                        } catch (error) {
+                          console.error(error);
+                        }
+                      }}
                       onPositiveReviewClick={async (e) => {
                         // TODO: Fix the Prompts results in backend
                         // try {
@@ -257,4 +253,5 @@ CharacterPrompt.propTypes = {
   voices: PropTypes.array.isRequired,
   handleGenVoiceForLine: PropTypes.func,
   handleRefinateLine : PropTypes.func,
+  handleFavoriteLine : PropTypes.func,
 };

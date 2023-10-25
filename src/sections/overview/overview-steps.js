@@ -48,6 +48,7 @@ export const OverviewSteps = (props) => {
         handleGenDialogue={CharacterRepository.getDialogue} 
         handleGenVoiceForLine={CharacterRepository.genVoiceForLine}
         handleRefinateLine={CharacterRepository.refinateLine}
+        handleFavoriteLine={CharacterRepository.markFavoriteLine}
       >
 
       </CharacterPrompt>

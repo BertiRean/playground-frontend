@@ -59,6 +59,7 @@ const Page = ({character, voices}) => {
               voices={voices}
               handleGenVoiceForLine={CharacterRepository.genVoiceForLine}
               handleRefinateLine={CharacterRepository.refinateLine}
+              handleFavoriteLine={CharacterRepository.markFavoriteLine}
             />
           </Stack>
         </Container>
