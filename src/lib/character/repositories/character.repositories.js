@@ -155,6 +155,16 @@ const markFavoriteLine = async(characterId, favorite = true, line = "") => {
   })
 }
 
+const getFavoriteDialogues = async(userId = "") => {
+  const URL = BASE_URL + `/character/export-dialogues/${userId}`;
+
+  return await axios.get(
+    URL
+  ).then(response => {
+    return response.data;
+  })
+}
+
 export const CharacterRepository =
 {
     getChars : getUserChars,
@@ -167,4 +177,5 @@ export const CharacterRepository =
     genVoiceForLine : genVoiceForLine,
     refinateLine : refinateLine,
     markFavoriteLine : markFavoriteLine,
+    getFavoriteDialogues : getFavoriteDialogues,
 }

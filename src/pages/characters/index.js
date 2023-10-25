@@ -1,6 +1,5 @@
 import Head from 'next/head';
-import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
-import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
+import DownloadIcon from '@mui/icons-material/Download';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import {
   Box,
@@ -10,7 +9,8 @@ import {
   Stack,
   SvgIcon,
   Typography,
-  Unstable_Grid2 as Grid
+  Unstable_Grid2 as Grid,
+  Snackbar
 } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CharacterCard } from 'src/sections/characters/character-card';
@@ -19,6 +19,7 @@ import { useRouter } from 'next/router';
 import { prefixSearch } from 'src/utils/prefix-search';
 import { useState } from 'react';
 import { CharacterRepository } from 'src/lib/character/repositories/character.repositories';
+import exportFromJSON from 'export-from-json';
 
 export async function getServerSideProps(ctx) {
 
@@ -31,18 +32,37 @@ export async function getServerSideProps(ctx) {
 
   return {
     props: {
-      characters: data
+      characters: data,
+      userId : user._id
     }
   }
 }
 
-const Page = ({characters}) => {
+const Page = ({characters, userId}) => {
 
   const router = useRouter();
   const [searchText, setSearchText] = useState('');
 
   const onCreatePress = () => {
     router.push('/characters/create')
+  }
+
+  const onExportPress = async (e) => {
+    try {
+      const data = await CharacterRepository.getFavoriteDialogues(userId);
+      if (Object.keys(data.lines).length > 0){
+        exportFromJSON({
+          data : data.lines,
+          fileName : 'dialogue',
+          exportType : exportFromJSON.types.json
+        });
+      }
+      else{
+
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const onSearchChange = (event) => {
@@ -71,27 +91,32 @@ const Page = ({characters}) => {
           <Stack spacing={3}>
             <Stack
               direction="row"
-              justifyContent="space-between"
               spacing={4}
+              justifyContent={'space-between'}
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
                   Characters
                 </Typography>
               </Stack>
-              <div>
-                <Button
-                  startIcon={(
-                    <SvgIcon fontSize="small">
-                      <PlusIcon />
-                    </SvgIcon>
-                  )}
-                  onClick={onCreatePress}
-                  variant="contained"
-                >
-                  Add
-                </Button>
-              </div>
+              <Stack direction={'row'} spacing={2}>
+              <Button
+                startIcon={(
+                  <SvgIcon fontSize="small">
+                    <PlusIcon />
+                  </SvgIcon>
+                )}
+                onClick={onCreatePress}
+                variant="contained"
+              >
+                Add
+              </Button>
+              <Button onClick={onExportPress} variant='contained' startIcon={(
+                <SvgIcon fontSize='small'>
+                  <DownloadIcon></DownloadIcon>
+                </SvgIcon>
+              )}>Export Dialogues</Button>
+              </Stack>
             </Stack>
             <CharactersSearch onTextChange={onSearchChange} />
             <Grid
