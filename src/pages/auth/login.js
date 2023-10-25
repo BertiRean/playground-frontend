@@ -17,7 +17,7 @@ import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 import { FormSchemas } from 'src/utils/form-schemas';
 import { UserRepository } from 'src/lib/user/repositories/user.repositories';
-import { setCookie, getCookie } from 'cookies-next';
+import { setCookie } from 'cookies-next';
 const Page = () => {
 
   const router = useRouter();

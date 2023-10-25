@@ -1,4 +1,3 @@
-import { Cast } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 
 export const Logo = () => {

@@ -12,7 +12,6 @@ import {
 import { alpha } from '@mui/material/styles';
 import { usePopover } from 'src/hooks/use-popover';
 import { AccountPopover } from './account-popover';
-import { useCookies } from 'react-cookie';
 import { getCookie } from 'cookies-next';
 
 const SIDE_NAV_WIDTH = 280;
