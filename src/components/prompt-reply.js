@@ -49,7 +49,7 @@ props }) => {
   }
 
   const onYesPressed = (event) => {
-    if (noPressed)
+    if (noPressed || yesPressed)
       return
 
     onPositiveReviewClick()
@@ -58,7 +58,7 @@ props }) => {
   }
 
   const onNoPressed = (event) => {
-    if (yesPressed)
+    if (yesPressed || noPressed)
       return
 
     onNegativeReviewClick()
@@ -76,7 +76,7 @@ props }) => {
       <Stack direction={'row'}
         spacing={3}>
         <Typography>{text}</Typography>
-        <ThumbUpIcon color={yesPressed ? 'success' : 'inherit'} onClick={onYesPressed}></ThumbUpIcon>
+        <ThumbUpIcon disabled={yesPressed} color={yesPressed ? 'success' : 'inherit'} onClick={onYesPressed}></ThumbUpIcon>
         <ThumbDownIcon color={noPressed ? 'error' : 'inherit'} onClick={onNoPressed}></ThumbDownIcon>
         {favoritePressed && <FavoriteIcon color='error' onClick={onFavoritePressed}></FavoriteIcon>}
         {!favoritePressed && <FavoriteBorderIcon onClick={onFavoritePressed}></FavoriteBorderIcon>}
