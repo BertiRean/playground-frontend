@@ -22,6 +22,7 @@ import { getCookie } from 'cookies-next';
 import { FormSchemas } from 'src/utils/form-schemas';
 import CircularProgress from '@mui/material/CircularProgress';
 import { v4 as uuidv4 } from 'uuid';
+import { toast } from 'react-toastify';
 
 
 export const CharacterPrompt = (props) => {
@@ -42,6 +43,7 @@ export const CharacterPrompt = (props) => {
       api_name: 'llama'
     }
   ];
+  const toaster = toast;
 
   const formik = useFormik({
     initialValues: {
@@ -204,6 +206,8 @@ export const CharacterPrompt = (props) => {
                       onFavoriteLineClick={async (isFavorite) => {
                         try {
                           const response = await handleFavoriteLine(character._id, isFavorite, item.line);
+                          const message = "Favorite line " + (isFavorite ? "Added" : "Removed");
+                          toast.success(message);
                         } catch (error) {
                           console.error(error);
                         }
