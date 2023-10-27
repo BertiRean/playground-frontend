@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import { withAuthGuard } from 'src/hocs/with-auth-guard';
 import { SideNav } from './side-nav';
 import { TopNav } from './top-nav';
+import { ToastContainer } from 'react-toastify';
 
 const SIDE_NAV_WIDTH = 280;
 
@@ -54,6 +55,7 @@ export const Layout = withAuthGuard((props) => {
       />
       <LayoutRoot>
         <LayoutContainer>
+          <ToastContainer style={{maxWidth : SIDE_NAV_WIDTH * 0.90}} position='bottom-left'></ToastContainer>
           {children}
         </LayoutContainer>
       </LayoutRoot>
