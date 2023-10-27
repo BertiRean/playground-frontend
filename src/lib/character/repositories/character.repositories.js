@@ -40,7 +40,6 @@ const update = async (characterId, character) => {
     character
   )
   .then(response => {return response.data})
-  .catch(error => {})
 }
 
 const getUserChars = async(userId) => {
