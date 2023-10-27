@@ -10,6 +10,8 @@ import { createTheme } from 'src/theme';
 import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import 'simplebar-react/dist/simplebar.min.css';
 import { CookiesProvider } from 'react-cookie';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -40,13 +42,14 @@ const App = (props) => {
           <AuthProvider>
             <ThemeProvider theme={theme}>
               <CssBaseline />
-              <AuthConsumer>
-                {
-                  (auth) => auth.isLoading
-                    ? <SplashScreen />
-                    : getLayout(<Component {...pageProps} />)
-                }
-              </AuthConsumer>
+                <AuthConsumer>
+                  {
+                    (auth) => auth.isLoading
+                      ? <SplashScreen />
+                      : getLayout(<Component {...pageProps} />)
+                  }
+                </AuthConsumer>
+                
             </ThemeProvider>
           </AuthProvider>
         </LocalizationProvider>
