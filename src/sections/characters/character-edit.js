@@ -16,12 +16,14 @@ import { CHAR_TRAITS } from 'src/constants/character-traits';
 import { useFormik } from 'formik';
 import { FormSchemas } from 'src/utils/form-schemas';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 export const CharacterEdit = (props) => {
 
   const { character, handleUpdateBtn, handleDeleteBtn } = props;
   const router = useRouter();
-
+  const toaster = toast;
+  
   const formik = useFormik({
     initialValues : {
       name : character.name,
@@ -33,8 +35,10 @@ export const CharacterEdit = (props) => {
     onSubmit : async (values, helpers) => {
       try {
         const response = await handleUpdateBtn(character._id, values);
+        toaster.success('Character data updated')
         router.reload()
       } catch (err) {
+        toaster.error('Oops something has happened')
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.response.data.detail });
         helpers.setSubmitting(false);
