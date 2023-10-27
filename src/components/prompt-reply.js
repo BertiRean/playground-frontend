@@ -7,6 +7,7 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 
 export const PromptReply = ({ lineIdx, audioUrl = "", text = "", voiceSelected = "",
 handleGenVoiceForLine = async () => {}, handleOnSaveAudio = () => {},
@@ -53,6 +54,7 @@ props }) => {
 
     onPositiveReviewClick()
     setYesPressed(true)
+    toast.success('Thanks by your positive review')
   }
 
   const onNoPressed = (event) => {
@@ -61,6 +63,7 @@ props }) => {
 
     onNegativeReviewClick()
     setNoPressed(true)
+    toast.success('I will improve the next time')
   }
 
   const onFavoritePressed = (event) => {
@@ -75,7 +78,7 @@ props }) => {
         <Typography>{text}</Typography>
         <ThumbUpIcon color={yesPressed ? 'success' : 'inherit'} onClick={onYesPressed}></ThumbUpIcon>
         <ThumbDownIcon color={noPressed ? 'error' : 'inherit'} onClick={onNoPressed}></ThumbDownIcon>
-        {favoritePressed && <FavoriteIcon onClick={onFavoritePressed}></FavoriteIcon>}
+        {favoritePressed && <FavoriteIcon color='error' onClick={onFavoritePressed}></FavoriteIcon>}
         {!favoritePressed && <FavoriteBorderIcon onClick={onFavoritePressed}></FavoriteBorderIcon>}
         <VolumeUpIcon onClick={onPlay}></VolumeUpIcon>
       </Stack>
