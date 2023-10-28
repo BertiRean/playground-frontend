@@ -35,10 +35,9 @@ export const CharacterEdit = (props) => {
     onSubmit : async (values, helpers) => {
       try {
         const response = await handleUpdateBtn(character._id, values);
-        toaster.success('Character data updated')
-        router.reload()
+        toaster.success('Character updated')
       } catch (err) {
-        toaster.error('Oops something has happened')
+        toaster.error('Oops something has gone wrong')
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.response.data.detail });
         helpers.setSubmitting(false);
