@@ -59,8 +59,7 @@ export const CharacterPrompt = (props) => {
       try {
         const token = getCookie('token');
         setLoadingLines(true);
-        const model = values.model;
-        const response = await handleGenDialogue(token, character._id, model.api_name, values.dialogues, values.char_context);
+        const response = await handleGenDialogue(token, character._id, values.model, values.dialogues, values.char_context);
         const new_lines = response.data.lines.map((item, idx) => {
           return { line: item, audio: '', actor : '' }
         });
