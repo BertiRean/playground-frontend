@@ -15,13 +15,11 @@ import {
 import { CHAR_TRAITS } from 'src/constants/character-traits';
 import { useFormik } from 'formik';
 import { FormSchemas } from 'src/utils/form-schemas';
-import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 
 export const CharacterEdit = (props) => {
 
-  const { character, handleUpdateBtn, handleDeleteBtn } = props;
-  const router = useRouter();
+  const { character, handleUpdateBtn } = props;
   const toaster = toast;
   
   const formik = useFormik({
@@ -121,9 +119,6 @@ export const CharacterEdit = (props) => {
         <CardActions sx={{ justifyContent: 'flex-end' }}>
           <Button variant="contained" type='submit'>
             Update
-          </Button>
-          <Button variant="contained">
-            Delete
           </Button>
         </CardActions>
       </Card>

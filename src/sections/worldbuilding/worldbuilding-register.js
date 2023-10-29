@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import {
   Button,
   Card,
@@ -12,16 +11,16 @@ import {
 import { useFormik } from 'formik';
 import { FormSchemas } from 'src/utils/form-schemas';
 import PropTypes from 'prop-types';
-import { WorldBuildingRepository } from 'src/lib/worldbuilding/worldbuilding.repositories';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 export const WorldBuildingRegister = (props) => {
 
   const {worldbuildingText, handleUpdateWorldBulding} = props;
   const isEmpty = worldbuildingText === "";
   const router = useRouter();
-
+  const toaster = toast;
   const formik = useFormik({
     initialValues: {
       description: worldbuildingText,
@@ -32,8 +31,9 @@ export const WorldBuildingRegister = (props) => {
         const cookie = getCookie('user');
         const user = JSON.parse(cookie);
         await handleUpdateWorldBulding(user._id, values.description);
-        router.push('/worldbuilding')
+        toaster.success('World building ' + (isEmpty ? 'created' : 'updated'));
       } catch (error) {
+        toaster.error('Oops something has gone wrong');
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: error.response.data.detail });
         helpers.setSubmitting(false);
