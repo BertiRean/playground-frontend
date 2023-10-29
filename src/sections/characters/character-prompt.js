@@ -44,6 +44,8 @@ export const CharacterPrompt = (props) => {
     }
   ];
   const toaster = toast;
+  const token = getCookie('token');
+  const user = JSON.parse(getCookie('user'));
 
   const formik = useFormik({
     initialValues: {
@@ -57,7 +59,6 @@ export const CharacterPrompt = (props) => {
     onSubmit: async (values, helpers) => {
       console.log(values);
       try {
-        const token = getCookie('token');
         setLoadingLines(true);
         const response = await handleGenDialogue(token, character._id, values.model, values.dialogues, values.char_context);
         const new_lines = response.data.lines.map((item, idx) => {
@@ -204,10 +205,11 @@ export const CharacterPrompt = (props) => {
                       handleOnSaveAudio={saveAudio}
                       onFavoriteLineClick={async (isFavorite) => {
                         try {
-                          const response = await handleFavoriteLine(character._id, isFavorite, item.line);
-                          const message = "Favorite line " + (isFavorite ? "Added" : "Removed");
+                          const response = await handleFavoriteLine(token, user._id, character._id, formik.values.char_context, isFavorite, item.line);
+                          const message = (isFavorite ? "Saved to" : "Removed from") + " favorites, you can export them via the characters screen"
                           toast.success(message);
                         } catch (error) {
+                          toaster.error('Oops something has gone wrong')
                           console.error(error);
                         }
                       }}

@@ -143,15 +143,25 @@ const genVoiceForLine = async(voice_id, text) => {
   })
 }
 
-const markFavoriteLine = async(characterId, favorite = true, line = "") => {
-  const url = BASE_URL + `/character/${characterId}/favorite`
+const markFavoriteLine = async(token, userId, characterId, additional_context = "", favorite = true, line = ""
+) => {
+  const url = BASE_URL + `/character/favorite`
 
-  return await axios.put(url, {line : line , favorite : favorite})
-  .then(response => {
-    if (response.status === 200){
-      return response.data
+  return await axios.post(
+    url, 
+    {},
+    {
+      params : {
+        character_id : characterId,
+        favorite : favorite,
+        line : line,
+        additional_context : additional_context,
+      },
+      headers : {
+        Authorization : `Bearer ${token}`
+      }
     }
-  })
+  ).then(response => response.data)
 }
 
 const getFavoriteDialogues = async(userId = "") => {
