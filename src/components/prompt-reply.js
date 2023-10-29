@@ -41,6 +41,7 @@ props }) => {
           handleOnSaveAudio(lineIdx, data.url, voiceSelected);
           setLoadingAudios(false);
         } catch (error) {
+          toaster.error('Oops something has gone wrong')
           setLoadingAudios(false);
           console.warn(error);
         }
@@ -54,7 +55,7 @@ props }) => {
 
     onPositiveReviewClick()
     setYesPressed(true)
-    toast.success('Thanks by your positive review')
+    toast.success('😎 I will suggest more lines like this')
   }
 
   const onNoPressed = (event) => {
@@ -63,7 +64,7 @@ props }) => {
 
     onNegativeReviewClick()
     setNoPressed(true)
-    toast.success('I will improve the next time')
+    toast.success('😓 I won\'t suggest lines like this anymore.')
   }
 
   const onFavoritePressed = (event) => {
