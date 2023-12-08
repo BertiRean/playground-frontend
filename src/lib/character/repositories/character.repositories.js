@@ -136,6 +136,9 @@ const genVoiceForLine = async(voice_id, text) => {
     }
   )
   .then(response => {
+    // If the response is a success, we need to add the base url to the url
+    console.log(response.data);
+    response.data.url = BASE_URL + "/" + response.data.url;
     return response.data;
   })
   .catch(error => {
