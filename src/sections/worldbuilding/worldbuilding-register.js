@@ -19,7 +19,6 @@ export const WorldBuildingRegister = (props) => {
 
   const {worldbuildingText, handleUpdateWorldBulding} = props;
   const isEmpty = worldbuildingText === "";
-  const router = useRouter();
   const toaster = toast;
   const formik = useFormik({
     initialValues: {
@@ -69,7 +68,9 @@ export const WorldBuildingRegister = (props) => {
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained" type="submit">
+          <Button
+            variant="contained"
+            type="submit">
             {isEmpty ? "Create" : "Update"}
           </Button>
         </CardActions>
