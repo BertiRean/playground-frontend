@@ -100,7 +100,7 @@ export const CharacterPrompt = (props) => {
         <Divider />
         <CardContent>
           <Grid container
-            spacing={3}>
+            spacing={3} columns={{xs : 4, sm:8, md:12}}>
             <Grid item
               xs={6}>
               <Stack direction='column' spacing={3}>
@@ -235,9 +235,7 @@ export const CharacterPrompt = (props) => {
                 }
                 {
                   loadingLines && 
-                  <>
-                    <CircularProgress style={{alignSelf : 'center'}}></CircularProgress>
-                  </>
+                  <CircularProgress style={{alignSelf : 'center'}}></CircularProgress>
                 }
               </Stack>
             </Grid>
