@@ -85,6 +85,22 @@ export const CharacterPrompt = (props) => {
     }
   }
 
+  const onActorChange = (e) => {
+    console.log(e.target.value);
+    formik.setFieldValue('voice', e.target.value);
+    clearActorAudios();
+  }
+
+  const clearActorAudios = () => {
+    const new_lines = lines.map((item) => {
+      let new_item = {...item}
+      new_item.audio = "";
+      new_item.actor = "";
+      return new_item;
+    })
+    setLines(new_lines)
+  }
+
   const saveAudio = (lineIdx, audioUrl, voiceActor) => {
     const new_lines = Array.from(lines);
     new_lines[lineIdx].audio = audioUrl;
@@ -163,7 +179,7 @@ export const CharacterPrompt = (props) => {
                   label="Select Voice Actor"
                   name="voice"
                   onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
+                  onChange={onActorChange}
                   required
                   select
                   SelectProps={{ native: true }}
