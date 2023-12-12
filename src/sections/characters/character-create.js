@@ -121,6 +121,8 @@ export const CharacterCreate = (props) => {
                 renderInput={(params) => (
                   <TextField {...params}
                     label="Traits"
+                    helperText={formik.touched.traits && formik.errors.traits}
+                    error={!!(formik.touched.traits && formik.errors.traits)}
                     placeholder="" />
                 )}
                 onChange={(event, values) => { formik.setFieldValue('traits', values) }}

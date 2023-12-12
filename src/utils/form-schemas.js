@@ -56,6 +56,9 @@ export const FormSchemas =
       string()
       .required('Character Description is required')
       .min(2),
+
+      traits : Yup.array().required().typeError('Character traits are required')
+      .min(1, 'Character traits are required')
     })
   },
 
